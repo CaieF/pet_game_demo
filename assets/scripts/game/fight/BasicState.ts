@@ -2,6 +2,7 @@ import { FightMap } from "../../scenes/Fight/Canvas/FightMap";
 import { ActionState } from "./ActionState";
 import { BasicMetaState } from "./BasicMetaState";
 import { OnBeTarget } from "./OnBeTarget";
+import { RoundState } from "./RoundState";
 
 // 状态基类
 export class BasicState<T extends BasicMetaState> {
@@ -16,6 +17,18 @@ export class BasicState<T extends BasicMetaState> {
         this.meta = meta;
         this.id = meta.id;
         this.name = meta.name;
+        this.OnFightBegan = meta.GetOnFightBegan()
+        this.OnRoundBegan = meta.GetOnRoundBegan()
+        this.OnRoundEnd = meta.GetOnRoundEnd()
+        this.OnBeHurt = meta.GetOnBeHurt()
+        this.OnBeCure = meta.GetOnBeCure()
+        this.OnBuff = meta.GetOnBuff()
+        this.BeforeAction = meta.GetBeforeAction()
+        this.AfterAction = meta.GetAfterAction()
+        this.OnAttack = meta.GetOnAttack()
+        this.OnSkill = meta.GetOnSkill()
+        this.OnDead = meta.GetOnDead()
+        this.onReBirth = meta.GetonReBirth()
     }
     // 战斗开始函数
     OnFightBegan: (self: this , fightMap: FightMap) => Promise<void>

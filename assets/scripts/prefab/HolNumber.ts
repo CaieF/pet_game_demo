@@ -24,7 +24,7 @@ export class HolNumber extends Component {
     }
     public set number(n: number) {
         this.$number = Math.ceil(n);
-        this.renderNumber(this.$number , this.fontSize)
+        this.renderNumber(this.$number , this.fontSize).then()
     }
 
     // 字体大小

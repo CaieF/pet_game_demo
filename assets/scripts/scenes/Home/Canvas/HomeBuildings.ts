@@ -1,4 +1,4 @@
-import { _decorator, Component, EventTouch, math, Node, screen } from 'cc';
+import { _decorator, Component, director, EventTouch, math, Node, screen } from 'cc';
 import { getConfig } from '../../../common/config/config';
 import { log } from '../../../util/out/log';
 import { util } from '../../../util/util';
@@ -41,12 +41,16 @@ export class HomeBuildings extends Component {
 
     // 打开关卡选择场景
     public async OpenLevelMap() {
-
+        const close = await util.message.load();
+        director.preloadScene("Fight", ()=> {
+            close();
+        })
+        director.loadScene("Fight");
     }
 
     // 打开商店场景
     public async OpenShopMap() {
-
+        util.message.confirm({ title: '提示', message: "该功能暂未开放，敬请期待！"});
     }
     
 }

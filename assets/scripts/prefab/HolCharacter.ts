@@ -8,6 +8,8 @@ import { ActionState } from '../game/fight/ActionState';
 import { OnBeTarget } from '../game/fight/OnBeTarget';
 import { getCampHurtPercent } from '../game/fight/character/CharacterMetaState';
 import { HolNumber } from './HolNumber';
+import { log } from '../util/out/log';
+import { BuffState } from '../game/fight/buff/BuffState';
 const { ccclass, property } = _decorator;
 
 // 获取角色坐标
@@ -54,11 +56,12 @@ export class HolCharacter extends Component {
      * 初始化角色
      * create 是角色创建数据
      */
-    async initCharacter(create: CharacterStateCreate, direction: 'left'|'right', coordinate: { row: number, col: number} = { row: 0, col: 0 }) {
+    async initCharacter(create: CharacterStateCreate, direction: 'left'|'right', coordinate: { row: number, col: number} = { row: 0, col: 0 }, fightMap: FightMap = null) {
         // 创建角色状态
         this.state = new CharacterState(create, this);
         this.direction = direction
         this.coordinate = coordinate
+        this.$fightMap = fightMap
         const meta = CharacterEnum[create.id]
         // 动画设置
         const animationNode = this.node.getChildByName('HolAnimation')
@@ -81,7 +84,7 @@ export class HolCharacter extends Component {
         if (this.direction === 'left') this.$holAnimation.node.setScale(Math.abs(this.$holAnimation.node.scale.x) * this.state.meta.AnimationForward, this.$holAnimation.node.scale.y, this.$holAnimation.node.scale.z)
         else this.$holAnimation.node.setScale(Math.abs(this.$holAnimation.node.scale.x) * -this.state.meta.AnimationForward, this.$holAnimation.node.scale.y, this.$holAnimation.node.scale.z)
         // 等级渲染
-        this.node.getChildByName('State').getChildByName('lv')
+        this.node.getChildByName('State').getChildByName('Lv')
             .getComponent(Label).string = 'lv:' + create.lv;
         // 状态渲染
         await this.updateUi()
@@ -103,6 +106,7 @@ export class HolCharacter extends Component {
         // 显示buff
         const hasDrawBuff: string[] = []
         const BuffIconNode = StateNode.getChildByName('BuffIcon')
+        BuffIconNode.removeAllChildren()
         for (const buff of this.state.buff) {
             if (hasDrawBuff.indexOf(buff.id) !== -1) continue
             const node = new Node
@@ -157,8 +161,8 @@ export class HolCharacter extends Component {
 
     /**
      * 根据函数
-     * hurt 造成的伤害值
-     * target 目标
+     * @param hurt 造成的伤害值
+     * @param target 目标
      */
     async attack(hurt: number, target: HolCharacter) {
         const targetState = new OnBeTarget()
@@ -170,8 +174,8 @@ export class HolCharacter extends Component {
         )
         targetState.buff = []
         // 10%数据波动
-        targetState.cure += math.randomRange(-0.1, 0.1)
-        targetState.hurt += math.randomRange(-0.1, 0.1)
+        targetState.cure += math.randomRange(-0.1, 0.1) * targetState.cure
+        targetState.hurt += math.randomRange(-0.1, 0.1) * targetState.hurt
         // 护甲穿透生效
         const pierceRate = 1 - target.state.pierce / (target.state.pierce + 1000)
         const reduceInjury = (target.state.defence * pierceRate) / (target.state.defence * pierceRate + 700)
@@ -190,8 +194,10 @@ export class HolCharacter extends Component {
             targetState.hurt *= 0.5
         }
         // 对方所有被伤害回调
-        for (const equipment of target.state.equipment) await equipment.OnBeHurt(equipment, targetState, this.$fightMap)
-        for (const buff of target.state.buff) await buff.OnBeHurt(buff, targetState, this.$fightMap)
+        for (const equipment of target.state.equipment) 
+            await equipment.OnBeHurt(equipment, targetState, this.$fightMap)
+        for (const buff of target.state.buff) 
+            await buff.OnBeHurt(buff, targetState, this.$fightMap)
         await target.state.OnBeHurt(target.state, targetState, this.$fightMap)
         // 播放对方受到攻击动画
         if (this.$fightMap.isPlayAnimation && !targetState.block) {
@@ -199,12 +205,41 @@ export class HolCharacter extends Component {
             this.$fightMap.actionAwaitQueue.push(hurtPromise)
         }
         target.state.energy += 10
+        
         // 结算
         await target.executeTargetState(targetState)
         // 更新ui
         await this.updateUi()
         await target.updateUi()
     }
+
+    /**
+     * 治疗函数
+     * @param cure 治疗值
+     * @param target 治疗对象
+     */
+    async cure(cure: number, target: HolCharacter) {
+        const targetState = new OnBeTarget()
+        targetState.origin = this.state
+        targetState.cure = cure * this.state.curePercent
+        targetState.hurt = 0 * this.state.curePercent
+        targetState.buff = []
+        // 10%数据波动
+        targetState.cure += math.randomRange(-0.1, 0.1) * targetState.cure
+        targetState.hurt += math.randomRange(-0.1, 0.1) * targetState.hurt
+        // 对方所有被治疗回调
+        for (const equipment of target.state.equipment) 
+            await equipment.OnBeCure(equipment, targetState, this.$fightMap)
+        for (const buff of target.state.buff) 
+            await buff.OnBeCure(buff, targetState, this.$fightMap)
+        await target.state.OnBeCure(target.state, targetState, this.$fightMap)
+        // 结束
+        await target.executeTargetState(targetState)
+        // 更新ui
+        await this.updateUi()
+        await target.updateUi()
+    }
+
 
     /**
      * 死亡函数
@@ -231,6 +266,41 @@ export class HolCharacter extends Component {
         }))
     }
 
+    /**
+     * 添加buff函数
+     * @param origin 施加者
+     * @param buff 对应的buff
+     */
+    async addBuff(origin: HolCharacter, buff: BuffState) {
+        const targetState = new OnBeTarget()
+        targetState.origin = origin.state
+        // 添加buff
+        targetState.buff.push(buff)
+        // 调用角色被设置buff的函数
+        await this.state.OnBuff(this.state, targetState, this.$fightMap)
+        // 调用所有装备被设置buff的函数
+        for (const equipment of this.state.equipment) 
+            await equipment.OnBuff(equipment, targetState, this.$fightMap)
+        // 调用所有buff被设置buff的函数
+        for (const b of this.state.buff) 
+            await b.OnBuff(b, targetState, this.$fightMap)
+        // 更新结算状态
+        await this.executeTargetState(targetState)
+    }  
+
+    /**
+     * 删除buff函数
+     * @param buff 对应的buff
+     */
+    async deleteBuff(buff: BuffState) {
+        const index = this.state.buff.indexOf(buff)
+        if (index === -1) return
+        this.state.buff[index].OnDeleteFromCharacter(this.state.buff[index])
+        this.state.buff.splice(index, 1)
+
+        await this.updateUi()
+    }
+
     /** 
      * 结算on be target对象
      * @param targetState 结算对象
@@ -246,7 +316,8 @@ export class HolCharacter extends Component {
             if (targetState.critical) this.showNumber(-targetState.hurt, new math.Color(220, 70, 70, 255), 40)
             else this.showNumber(-targetState.hurt, new math.Color(200, 200, 200, 255), 25)
         }
-        if (this.$fightMap.isPlayAnimation && targetState.cure) this.showNumber(+targetState.cure, new math.Color(50, 220, 50, 255), 25)
+        if (this.$fightMap.isPlayAnimation && targetState.cure) 
+            this.showNumber(+targetState.cure, new math.Color(50, 220, 50, 255), 25)
         this.state.hp -= targetState.hurt
         this.state.hp += targetState.cure
         for (const b of targetState.buff) {
@@ -258,8 +329,8 @@ export class HolCharacter extends Component {
 
     /**
      * 显示数值
-     * num 是数值
-     * color 是颜色
+     * @param num 是数值
+     * @param color 是颜色
      */
     async showNumber(num: number, color: math.Color, size: number = 28) {
         const holNumberNodePool = util.resource.getNodePool(
@@ -296,7 +367,7 @@ export class HolCharacter extends Component {
 
     /**
      * 显示文字
-     * str 是显示文件
+     * @param str 是显示文件
      */
     async showString(str: string) {
         if (!this.$fightMap.isPlayAnimation) return
@@ -317,6 +388,14 @@ export class HolCharacter extends Component {
         }, 20 / this.$holAnimation.timeScale)
         return new Promise(res => setTimeout(res, 100))
     }
+
+    /**
+     * 根据一个数组过滤所有队友
+     */
+    getFriends(all: HolCharacter[]): HolCharacter[] {
+        return all.filter(v => v.direction === this.direction)    
+    }
+
 
     /**
      * 根据一个数组过滤所有敌人

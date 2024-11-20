@@ -102,8 +102,8 @@ export class HolAnimation extends Component {
                         this.$animationControl.setAnimation(0, name, false);
                 })
             } else if (this.$animationControl instanceof dragonBones.ArmatureDisplay) {
-                this.$animationControl.playAnimation(name, times)
                 this.$animationControl.armatureName = name
+                this.$animationControl.playAnimation(name, times)
                 this.$animationControl.on(dragonBones.EventObject.COMPLETE, () => {
                     this.$lastAnimationPromiseResFunc = null;
                     res();

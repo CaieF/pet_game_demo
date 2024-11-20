@@ -43,7 +43,7 @@ export class HolPreLoad extends Component {
         if (this.$accumulateTime <= 0) {
             this.TipNode.getComponent(Label).string = this.$tips[this.$currentIndex];
             this.$currentIndex++;
-            this.$accumulateTime = 4;
+            this.$accumulateTime = 2;
             if (this.$currentIndex >= this.$tips.length)  this.$currentIndex = 0;
         }
     }

@@ -60,7 +60,7 @@ export class CharacterState extends BasicState<CharacterMetaState> {
     // 伤害率
     hurtPercent: number = 1.0;
     // 免伤率
-    FreeInjuryPercent: number = 1.0;
+    FreeInjuryPercent: number = 0.0;
 
     // 所有buff
     buff: BuffState[] = [];

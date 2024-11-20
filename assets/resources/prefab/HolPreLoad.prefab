@@ -392,7 +392,7 @@
       "__uuid__": "8b567a13-7a68-4728-bc7d-2a7dfad61c56@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "_type": 0,
+    "_type": 1,
     "_fillType": 0,
     "_sizeMode": 0,
     "_fillCenter": {
@@ -478,7 +478,7 @@
       "__uuid__": "71cc4629-9ae2-43aa-8d6e-710398266c5d@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "_type": 0,
+    "_type": 1,
     "_fillType": 0,
     "_sizeMode": 0,
     "_fillCenter": {
@@ -574,7 +574,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 340.842041015625,
+      "width": 269.26312255859375,
       "height": 104.8
     },
     "_anchorPoint": {
@@ -610,7 +610,7 @@
       "b": 223,
       "a": 255
     },
-    "_string": "宠 物 大 作 战",
+    "_string": "普 西 王 国",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 80,
@@ -723,7 +723,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "8ef0d9e7-a546-41e4-a82a-14f67ff25788@f9941",
+      "__uuid__": "169407dc-9c22-4797-a5cf-f5bc92648acf@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,

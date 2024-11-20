@@ -151,7 +151,7 @@ class Character extends CharacterMetaState {
             // 造成伤害 ...
             for (const target of actionState.targets) {
                 // 添加眩晕状态
-                const vertigo = new BuffState({id: "vertigo"})
+                //const vertigo = new BuffState({id: "vertigo"})
                 //target.component.addBuff(selfComponent , vertigo)
                 // 两回合后去掉
                 //fightMap.listenRoundEvent(2 , () => target.component.deleteBuff(vertigo) )

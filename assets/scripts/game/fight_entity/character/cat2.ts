@@ -24,19 +24,19 @@ class Character extends CharacterMetaState {
 
     CharacterQuality: number = 3
 
-    AnimationScale: number = 10
+    AnimationScale: number = 6
 
-    HpGrowth: number = 70
+    HpGrowth: number = 50
 
-    AttackGrowth: number = 25
+    AttackGrowth: number = 15
 
-    DefenceGrowth: number = 20
+    DefenceGrowth: number = 10
 
-    PierceGrowth: number = 10
+    PierceGrowth: number = 5
 
-    SpeedGrowth: number = 15
+    SpeedGrowth: number = 10
 
-    Energy: number = 100
+    Energy: number = 80
 
     PassiveIntroduceOne: string = `
     
@@ -109,11 +109,6 @@ class Character extends CharacterMetaState {
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
             }
-            // 再次出手 20% 概率
-            if ( self.star >= 4 && Math.random() < 0.2 ) {
-                if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
-                await self.component.action()
-            }
             return
         }
     }
@@ -127,11 +122,6 @@ class Character extends CharacterMetaState {
             const enemy = enemys[0]
             if (!enemy) return
             actionState.targets.push(enemy.state)
-            enemys.forEach((e , i) => {
-                if (i === 0) return
-                if (e.coordinate.row === enemy.coordinate.row)
-                    actionState.targets.push(e.state)
-            })
             // 播放动画
             if (fightMap.isPlayAnimation) {
                 // 移动过去
@@ -152,9 +142,9 @@ class Character extends CharacterMetaState {
             for (const target of actionState.targets) {
                 // 添加眩晕状态
                 const vertigo = new BuffState({id: "vertigo"})
-                //target.component.addBuff(selfComponent , vertigo)
+                target.component.addBuff(selfComponent , vertigo)
                 // 两回合后去掉
-                //fightMap.listenRoundEvent(2 , () => target.component.deleteBuff(vertigo) )
+                fightMap.listenRoundEvent(2 , () => target.component.deleteBuff(vertigo) )
                 // 攻击
                 fightMap.actionAwaitQueue.push(
                     selfComponent.attack(self.attack * 1.5 , target.component)
