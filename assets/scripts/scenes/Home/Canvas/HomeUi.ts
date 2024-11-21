@@ -12,6 +12,13 @@ export class HomeUi extends Component {
         })
         director.loadScene("Hero");
     }
+
+    // 打开布阵
+    async OpenTeam() {
+        const close = await util.message.load();
+        this.node.parent.getChildByName("HolTeam").active = true;
+        close();
+    }
 }
 
 

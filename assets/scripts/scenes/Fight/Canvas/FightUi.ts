@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Event, Label } from 'cc';
+import { _decorator, Component, Node, Event, Label, director } from 'cc';
 import { HolCharacter } from '../../../prefab/HolCharacter';
 import { util } from '../../../util/util';
 import { FightMap } from './FightMap';
@@ -29,6 +29,14 @@ export class FightUi extends Component {
         if (result) {
             this.FightMapNode.getComponent(FightMap).isPlayAnimation = false
         }
+    }
+
+    // 返回
+    // 回到主页
+    async GoBack() {
+        const close = await util.message.load()
+        director.preloadScene('Home', () => close())
+        director.loadScene('Home')
     }
 }
 

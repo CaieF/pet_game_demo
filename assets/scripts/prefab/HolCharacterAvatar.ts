@@ -6,6 +6,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('HolCharacterAvatar')
 export class HolCharacterAvatar extends Component {
+    public character: CharacterStateCreate;
 
     @property(Node) AvatarNode: Node; // 头像节点
 
@@ -18,6 +19,7 @@ export class HolCharacterAvatar extends Component {
     @property(Node) LvNode: Node;  // 等级节点
     
     async setCharacter(create: CharacterStateCreate) {
+        this.character = create;
         const meta = CharacterEnum[create.id];
         this.AvatarNode.getComponent(Sprite).spriteFrame = 
             await util.bundle.load(meta.AvatarPath , SpriteFrame)

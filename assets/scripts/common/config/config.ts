@@ -50,20 +50,20 @@ class UserData extends Resource {
         // 测试角色
         this.addNewCharacter({
             id: "cat3" ,
-            lv: 1 ,
-            star: 1 ,
+            lv: 100 ,
+            star: 3 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "cat1" ,
-            lv: 1 ,
-            star: 1 ,
+            lv: 100 ,
+            star: 3 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "cat2" ,
-            lv: 1 ,
-            star: 1 ,
+            lv: 100 ,
+            star: 3 ,
             equipment: []
         })
         if (!or) { return }

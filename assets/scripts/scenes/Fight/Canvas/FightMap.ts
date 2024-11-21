@@ -5,6 +5,7 @@ import { util } from '../../../util/util';
 import { common } from '../../../common/common/common';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { RoundState } from '../../../game/fight/RoundState';
+import { getConfig } from '../../../common/config/config';
 const { ccclass, property } = _decorator;
 
 @ccclass('FightMap')
@@ -40,6 +41,17 @@ export class FightMap extends Component {
         holPreLoad.setProcess(50)
         // 当前进度
         let process = 50
+        common.leftCharacter = new Map
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                const character = getConfig().userData.characterQueue[row][col]
+                if (character) {
+                    await common.leftCharacter.set({row: row + 1, col: col + 1}, character)
+                }
+            }
+
+        }
+
         // 设置角色
         for (const character of common.leftCharacter) {
             await this.setCharacter(character[1], 'left', character[0])
@@ -140,12 +152,14 @@ export class FightMap extends Component {
     
     // 战斗胜利结算
     private async fightSuccess() {
+        this.node.parent.getChildByName("FightUi").getChildByName("GoBack").active = true
         this.node.parent.getChildByName("FightFailure").active = false
         this.node.parent.getChildByName("FightSuccess").active = true
     }
 
     // 战斗失败结算
     private async fightEnd() {
+        this.node.parent.getChildByName("FightUi").getChildByName("GoBack").active = true
         this.node.parent.getChildByName("FightSuccess").active = false
         this.node.parent.getChildByName("FightFailure").active = true
     }
