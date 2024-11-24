@@ -13,28 +13,28 @@ export type CampType =  'ordinary'|'gold'|'tree'|'water'|'fire'|'stone'
 export function getCampHurtPercent(self: CampType, target: CampType): number {
     switch (self) {
         case 'gold': {
-            if (target === 'fire') return 0.8;
-            if (target === 'tree') return 1.2;
+            if (target === 'fire') return 0.5;
+            if (target === 'tree') return 2.0;
             return 1;
         }
         case 'tree': {
-            if (target === 'stone') return 1.2;
-            if (target === 'gold') return 0.8;
+            if (target === 'stone') return 2.0;
+            if (target === 'gold') return 0.5;
             return 1;
         }
         case 'water': {
-            if (target === 'fire') return 1.2;
-            if (target === 'stone') return 0.8;
+            if (target === 'fire') return 2.0;
+            if (target === 'stone') return 0.5;
             return 1;
         }
         case 'fire': {
-            if (target === 'gold') return 1.2;
-            if (target === 'water') return 0.8;
+            if (target === 'gold') return 2.0;
+            if (target === 'water') return 0.5;
             return 1;
         }
         case 'stone': {
-            if (target === 'water') return 1.2;
-            if (target === 'tree') return 0.8;
+            if (target === 'water') return 2.0;
+            if (target === 'tree') return 0.5;
             return 1;
         }
         default: return 1;

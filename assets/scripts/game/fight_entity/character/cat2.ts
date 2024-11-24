@@ -26,57 +26,68 @@ class Character extends CharacterMetaState {
 
     AnimationScale: number = 6
 
-    HpGrowth: number = 50
+    HpGrowth: number = 80
 
     AttackGrowth: number = 15
 
-    DefenceGrowth: number = 10
+    DefenceGrowth: number = 15
 
     PierceGrowth: number = 5
 
     SpeedGrowth: number = 10
 
-    Energy: number = 80
+    Block: number = 10;
+
+    Energy: number = 50
+
+    AttackIntroduce: string = `
+    对敌人造成 100 % 的伤害
+    `
 
     PassiveIntroduceOne: string = `
     
-    额外获得 20% 速度
-    额外获得 20% 攻击力
-    额外获得 20% 护甲穿透
+    额外获得 20% 生命值
+    额外获得 20% 防御值
+    获得 10% 免伤值
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
     
-    额外获得 20% 生命值
-    额外获得 20% 攻击力
-    每次攻击后有 20% 概率再次出手
+    额外获得 50% 生命值
+    获得 10% 格挡值
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
     
-    对一排敌人造成150%攻击力的伤害
+    对敌人造成150%攻击力的伤害
     并且眩晕敌人2回合
     `.replace(/ /ig , "")
 
-    OnCreateState(self: CharacterState): void {
+    onCreateState(self: CharacterState): void {
         if (self.star >= 2) {
-            self.speed *= 1.2
-            self.attack *= 1.2
-            self.pierce *= 1.2
-        }
-        if (self.star >= 4) {
             self.maxHp *= 1.2
-            self.attack *= 1.2
+            self.defence *= 1.2
+            self.FreeInjuryPercent += 0.1
+        }
+        if (self.star >= 3) {
+            self.maxHp *= 1.5
+            self.block += 10
         }
     }
 
     GetOnAttack(): (self: CharacterState, actionState: ActionState, fightMap: FightMap) => Promise<any> {
         return async (self: CharacterState, actionState: ActionState, fightMap: FightMap) => {
             const selfComponent = self.component
-            // 获取敌人
-            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)
-                .sort((a , b) => a.coordinate.col - b.coordinate.col)
-            const enemy = enemys[0]
+            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)  
+                .sort((a , b) => a.coordinate.col - b.coordinate.col)  // 获取所有敌人, 并按列排序
+            const sameRowEnemies = enemys.filter(e => e.coordinate.row === selfComponent.coordinate.row)  // 获取与自己同一行上的敌人
+            let enemy;
+            // 优先攻击同一行上的敌人, 若没有则攻击第一排敌人
+            if (sameRowEnemies.length > 0) {
+                enemy = sameRowEnemies.sort((a, b) => a.coordinate.col - b.coordinate.col)[0]
+            } else {
+                enemy = enemys[0]
+            }
             if (!enemy) return
             actionState.targets.push(enemy.state)
             // 播放动画
@@ -116,10 +127,16 @@ class Character extends CharacterMetaState {
     GetOnSkill(): (self: CharacterState, actionState: ActionState, fightMap: FightMap) => Promise<any> {
         return async (self: CharacterState, actionState: ActionState, fightMap: FightMap) => {
             const selfComponent = self.component
-            // 获取敌人
-            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)
-                .sort((a , b) => a.coordinate.col - b.coordinate.col)
-            const enemy = enemys[0]
+            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)  
+                .sort((a , b) => a.coordinate.col - b.coordinate.col)  // 获取所有敌人, 并按列排序
+            const sameRowEnemies = enemys.filter(e => e.coordinate.row === selfComponent.coordinate.row)  // 获取与自己同一行上的敌人
+            let enemy;
+            // 优先攻击同一行上的敌人, 若没有则攻击第一排敌人
+            if (sameRowEnemies.length > 0) {
+                enemy = sameRowEnemies.sort((a, b) => a.coordinate.col - b.coordinate.col)[0]
+            } else {
+                enemy = enemys[0]
+            }
             if (!enemy) return
             actionState.targets.push(enemy.state)
             // 播放动画

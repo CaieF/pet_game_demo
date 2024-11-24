@@ -26,17 +26,23 @@ class Character extends CharacterMetaState {
 
     AnimationScale: number = 6
 
-    HpGrowth: number = 45
+    HpGrowth: number = 50
 
-    AttackGrowth: number = 18
+    AttackGrowth: number = 20
 
-    DefenceGrowth: number = 8
+    DefenceGrowth: number = 10
 
-    PierceGrowth: number = 5
+    PierceGrowth: number = 15
 
     SpeedGrowth: number = 13
 
-    Energy: number = 90
+    Energy: number = 100
+
+    AttackIntroduce: string = `
+    
+    攻击目标造成 100% 攻击力的伤害
+    每次攻击后有 30% 概率再次出手
+    `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
     
@@ -46,24 +52,23 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
-    
+    再次出手概率由 30% 提升为 60%
     额外获得 20% 生命值
     额外获得 20% 攻击力
-    每次攻击后有 20% 概率再次出手
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
     
-    造成200%攻击力的伤害
+    造成350%攻击力的伤害
     `.replace(/ /ig , "")
 
-    OnCreateState(self: CharacterState): void {
+    onCreateState(self: CharacterState): void {
         if (self.star >= 2) {
             self.speed *= 1.2
             self.attack *= 1.2
             self.pierce *= 1.2
         }
-        if (self.star >= 4) {
+        if (self.star >= 3) {
             self.maxHp *= 1.2
             self.attack *= 1.2
         }
@@ -72,10 +77,16 @@ class Character extends CharacterMetaState {
     GetOnAttack(): (self: CharacterState, actionState: ActionState, fightMap: FightMap) => Promise<any> {
         return async (self: CharacterState, actionState: ActionState, fightMap: FightMap) => {
             const selfComponent = self.component
-            // 获取敌人
-            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)
-                .sort((a , b) => a.coordinate.col - b.coordinate.col)
-            const enemy = enemys[0]
+            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)  
+                .sort((a , b) => a.coordinate.col - b.coordinate.col)  // 获取所有敌人, 并按列排序
+            const sameRowEnemies = enemys.filter(e => e.coordinate.row === selfComponent.coordinate.row)  // 获取与自己同一行上的敌人
+            let enemy;
+            // 优先攻击同一行上的敌人, 若没有则攻击第一排敌人
+            if (sameRowEnemies.length > 0) {
+                enemy = sameRowEnemies.sort((a, b) => a.coordinate.col - b.coordinate.col)[0]
+            } else {
+                enemy = enemys[0]
+            }
             if (!enemy) return
             actionState.targets.push(enemy.state)
             // 播放动画
@@ -109,7 +120,7 @@ class Character extends CharacterMetaState {
                 })
             }
             // 再次出手 20% 概率
-            if ( self.star >= 1 && Math.random() < 0.2 ) {
+            if (Math.random() < (self.star >= 3 ? 0.6 : 0.3) ) {
                 if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
                 await self.component.action()
             }
@@ -120,10 +131,16 @@ class Character extends CharacterMetaState {
     GetOnSkill(): (self: CharacterState, actionState: ActionState, fightMap: FightMap) => Promise<any> {
         return async (self: CharacterState, actionState: ActionState, fightMap: FightMap) => {
             const selfComponent = self.component
-            // 获取敌人
-            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)
-                .sort((a , b) => a.coordinate.col - b.coordinate.col)
-            const enemy = enemys[0]
+            const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)  
+                .sort((a , b) => a.coordinate.col - b.coordinate.col)  // 获取所有敌人, 并按列排序
+            const sameRowEnemies = enemys.filter(e => e.coordinate.row === selfComponent.coordinate.row)  // 获取与自己同一行上的敌人
+            let enemy;
+            // 优先攻击同一行上的敌人, 若没有则攻击第一排敌人
+            if (sameRowEnemies.length > 0) {
+                enemy = sameRowEnemies.sort((a, b) => a.coordinate.col - b.coordinate.col)[0]
+            } else {
+                enemy = enemys[0]
+            }
             if (!enemy) return
             actionState.targets.push(enemy.state)
             // 播放动画
@@ -146,7 +163,7 @@ class Character extends CharacterMetaState {
             for (const target of actionState.targets) {
                 // 攻击
                 fightMap.actionAwaitQueue.push(
-                    selfComponent.attack(self.attack * 2.0 , target.component)
+                    selfComponent.attack(self.attack * 3.5 , target.component)
                 )
             }
             // 回到原位
@@ -160,6 +177,11 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
+            // 再次出手 20% 概率
+            // if (Math.random() < (self.star >= 3 ? 0.4 : 0.2) ) {
+            //     if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
+            //     await self.component.action()
+            // }
             return
         }
     }

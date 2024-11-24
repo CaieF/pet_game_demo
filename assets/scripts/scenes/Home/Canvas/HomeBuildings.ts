@@ -50,7 +50,11 @@ export class HomeBuildings extends Component {
 
     // 打开商店场景
     public async OpenShopMap() {
-        util.message.confirm({ title: '提示', message: "该功能暂未开放，敬请期待！"});
+        const close = await util.message.load();
+        console.log(this.node.parent);
+        
+        this.node.parent.getChildByName("HolShopping").active = true;
+        close();
     }
     
 }

@@ -49,7 +49,7 @@ class Character extends CharacterMetaState {
     
     额外获得 20% 生命值
     额外获得 20% 攻击力
-    每次攻击后有 20% 概率再次出手
+    额外获得 20% 护甲穿透
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `

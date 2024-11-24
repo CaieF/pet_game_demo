@@ -90,9 +90,11 @@ export class CharacterState extends BasicState<CharacterMetaState> {
         this.critical = meta.Critical
         this.block = meta.Block
 
+        //meta.OnCreateState
         // 装备
         create.equipment.forEach(ec => this.addEquipment(ec))
         meta.onCreateState(this);
+
 
         this.hp = this.maxHp;
         this.energy = 20;

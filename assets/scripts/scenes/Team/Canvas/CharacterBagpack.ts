@@ -79,9 +79,11 @@ export class CharacterBagpack extends Component {
     public async clickAvatar(avatarNode: Node) {
         // 全部设置为半黑
         this.characterAvatarNode.forEach(node => {
-            if (node === avatarNode) return
-            const sprite = node.getChildByName('Mask').getComponent(Sprite)
-            sprite.color = new math.Color(255, 255, 255, 100)
+            if (node === avatarNode) {
+                node.getChildByName('Mask').active = true
+                return
+            }
+            
             node.off(NodeEventType.TOUCH_END)
         })
         // 重复点击

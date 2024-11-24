@@ -33,6 +33,7 @@ export class FightMap extends Component {
         const holPreLoad = this.node.parent.getChildByName('HolPreLoad').getComponent(HolPreLoad);
         holPreLoad.setTips([
             "金->木->土->水->火->金\n不同属性之间相互克制，巧用属性可以出奇制胜" ,
+            "普通属性不克制一切属性\n也不会被其他属性克制"
         ])
         holPreLoad.setProcess(20)
         // 随机地图
@@ -122,7 +123,7 @@ export class FightMap extends Component {
             }
             // 角色行动
             for (const character of allLiveCharacter) {
-                if (this.allLiveCharacter.indexOf(character) === -1) break
+                if (this.allLiveCharacter.indexOf(character) === -1) continue
                 await character.action()
                 // 等待行动队列清空
                 await Promise.all(this.actionAwaitQueue)

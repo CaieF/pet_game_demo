@@ -49,6 +49,66 @@ class UserData extends Resource {
         super();
         // 测试角色
         this.addNewCharacter({
+            id: "SlimeOrdinary" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "SlimeGold" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "SlimeTree" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "SlimeWater" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "SlimeFire" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "SlimeStone" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "Orc" ,
+            lv: 100 ,
+            star: 1 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "OrcArmored" ,
+            lv: 100 ,
+            star: 2 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "OrcElite" ,
+            lv: 100 ,
+            star: 2 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "OrcRider" ,
+            lv: 100 ,
+            star: 3 ,
+            equipment: []
+        })
+        this.addNewCharacter({
             id: "cat3" ,
             lv: 100 ,
             star: 3 ,
@@ -66,6 +126,32 @@ class UserData extends Resource {
             star: 3 ,
             equipment: []
         })
+        this.addNewCharacter({
+            id: "cat4" ,
+            lv: 100 ,
+            star: 3 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "WereWolf" ,
+            lv: 100 ,
+            star: 4 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "WereBear" ,
+            lv: 100 ,
+            star: 4 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "SonGoku" ,
+            lv: 100 ,
+            star: 5 ,
+            equipment: []
+        })
+        
+        
         if (!or) { return }
         this.lv = or.lv || 1
         this.exp = or.exp || 1

@@ -46,18 +46,6 @@ export class CharacterTeamQueue extends Component {
                 }
             }
         }
-        // 遍历  使用 for...of 替代 forEach
-        // for (const [position, characterState] of common.leftCharacter) {
-        //     const character = characterState;
-        //     const characterCoordinate = this.node.getChildByName('CharacterItem' + position.row + position.col);
-        //     config.userData.characterQueue[position.row - 1][position.col -1] = character
-        //     const node = nodePool.get();
-        //     node.getComponent(Button).interactable = false;
-        //     await node.getComponent(HolCharacterAvatar).setCharacter(character);
-        //     node
-        //     characterCoordinate.addChild(node);
-        //     this.characterAvatarNode.push(node);
-        // }
         close()
     }
 
