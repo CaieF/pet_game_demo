@@ -10,6 +10,8 @@ import { getCampHurtPercent } from '../game/fight/character/CharacterMetaState';
 import { HolNumber } from './HolNumber';
 import { log } from '../util/out/log';
 import { BuffState } from '../game/fight/buff/BuffState';
+import { HolEffect } from './HolEffect';
+import { EffectState } from '../game/fight/effect/EffectState';
 const { ccclass, property } = _decorator;
 
 // 获取角色坐标
@@ -325,6 +327,41 @@ export class HolCharacter extends Component {
             await b.OnAddToCharacter(b)
             this.state.buff.push(b)
         }
+    }
+
+    /**
+     * 显示特效
+     * @param EffectState 特效
+     */
+    async showEffect(EffectState: EffectState, speedx: number = 0, speedy: number = 0) {
+        const holEffectNodePool = util.resource.getNodePool(
+            await util.bundle.load('prefab/HolEffect', Prefab)
+        )
+        const effectNode = holEffectNodePool.get()
+        const holEffect = effectNode.getComponent(HolEffect)
+        holEffect.initEffect(EffectState, this.direction)
+        this.node.addChild(effectNode)
+        const ordinarySibling = effectNode.getSiblingIndex()
+        effectNode.setSiblingIndex(9999)
+        if (this.direction === 'left') speedx = -speedx
+        else speedx = speedx
+        return new Promise<void>(res => {
+            let i = 0
+            const inter = setInterval(() => {
+                if (++i > 45) {
+                    res()
+                    holEffectNodePool.put(effectNode)
+                    effectNode.setSiblingIndex(ordinarySibling)
+                    effectNode.setPosition(0, 0, effectNode.position.z)
+                    return clearInterval(inter)
+                }
+                effectNode.setPosition(
+                    effectNode.position.x + speedx,
+                    effectNode.position.y + speedy,
+                    effectNode.position.z
+                )
+            }, 20 / this.$holAnimation.timeScale)
+        })
     }
 
     /**

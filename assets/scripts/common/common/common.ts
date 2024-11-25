@@ -42,16 +42,16 @@ common.rightCharacter.set({row:1, col: 3}, {
 })
 
 common.rightCharacter.set({row:2, col: 3}, {
-    id: 'cat4',
+    id: 'catGril',
     lv: 100,
     star: 3,
     equipment: []
 })
 
 common.rightCharacter.set({row:3, col: 3}, {
-    id: 'cat3',
+    id: 'WereBisonKing',
     lv: 100,
-    star: 3,
+    star: 5,
     equipment: []
 })
 
@@ -65,7 +65,7 @@ common.rightCharacter.set({row:2, col: 2}, {
 })
 
 common.rightCharacter.set({row:2, col: 1}, {
-    id: 'WereBear',
+    id: 'DinoRex',
     lv: 100,
     star: 4,
     equipment: []

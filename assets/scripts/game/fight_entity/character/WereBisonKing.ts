@@ -9,68 +9,73 @@ import { RegisterCharacter } from "../../fight/character/CharacterEnum";
 import { CharacterMetaState } from "../../fight/character/CharacterMetaState";
 import { CharacterState } from "../../fight/character/CharacterState";
 
-@RegisterCharacter({id: "cat1"})
+@RegisterCharacter({id: "WereBisonKing"})
 class Character extends CharacterMetaState {
 
-    name: string = "狸花猫"
+    name: string = "牛魔王"
 
-    AnimationDir: string = "game/fight_entity/character/cat1"
+    AnimationDir: string = "game/fight_entity/character/WereBisonKing"
 
     AnimationType: "DragonBones" | "Spine" = "DragonBones"
 
-    AvatarPath: string = "game/fight_entity/character/cat1/avatar/spriteFrame"
+    AvatarPath: string = "game/fight_entity/character/WereBisonKing/avatar/spriteFrame"
 
-    CharacterCamp: "ordinary" | "gold" | "tree" | "water" | "fire"|"stone" = "gold"
+    CharacterCamp: "ordinary" | "gold" | "tree" | "water" | "fire"|"stone" = "fire"
 
-    CharacterQuality: number = 3
+    CharacterQuality: number = 5
 
-    AnimationScale: number = 6
+    AnimationScale: number = 5
 
-    HpGrowth: number = 50
+    AnimationPosition: { x: number; y: number; } = { x: 0, y: 80};
+
+    HpGrowth: number = 80
 
     AttackGrowth: number = 20
 
-    DefenceGrowth: number = 10
+    DefenceGrowth: number = 17
 
-    PierceGrowth: number = 20
+    PierceGrowth: number = 25
 
-    SpeedGrowth: number = 13
+    SpeedGrowth: number = 16
+
+    Block: number = 20;
 
     Energy: number = 100
 
     AttackIntroduce: string = `
-    
-    攻击目标造成 100% 攻击力的伤害
-    每次攻击后有 30% 概率再次出手
+    无视敌人防御以及免伤值
+    对敌人造成 100 % 的伤害
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
     
-    额外获得 20% 速度
-    额外获得 20% 攻击力
-    额外获得 20% 护甲穿透
+    额外获得 25% 生命值
+    额外获得 25% 攻击力
+    额外获得 25% 防御值
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
-    再次出手概率由 30% 提升为 60%
-    额外获得 20% 生命值
-    额外获得 20% 攻击力
+    获得 25% 伤害率
+    获得 25% 暴击率
+    额外获得 25% 速度
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
     
-    造成350%攻击力的伤害
+    无视敌人防御以及免伤值
+    对敌人造成 300 % 的伤害
     `.replace(/ /ig , "")
 
     onCreateState(self: CharacterState): void {
         if (self.star >= 2) {
-            self.speed *= 1.2
-            self.attack *= 1.2
-            self.pierce *= 1.2
+            self.maxHp *= 1.25
+            self.defence *= 1.25
+            self.attack *= 1.25
         }
-        if (self.star >= 3) {
-            self.maxHp *= 1.2
-            self.attack *= 1.2
+        if (self.star >= 4) {
+            self.hurtPercent += 0.25
+            self.critical += 25
+            self.speed *= 1.25
         }
     }
 
@@ -105,8 +110,21 @@ class Character extends CharacterMetaState {
                 await selfComponent.holAnimation.playAnimation("attack" , 1 , selfComponent.defaultState)
             }
             // 造成伤害
-            for (const target of actionState.targets)
-                await selfComponent.attack(self.attack * 1.0 , target.component)
+            for (const target of actionState.targets) {
+                const FreeInjuryPercentTemp = target.component.state.FreeInjuryPercent // 保存免伤率
+                const defenceTemp = target.component.state.defence // 保存防御
+                target.component.state.FreeInjuryPercent = 0 // 免伤为0
+                target.component.state.defence = 0
+                selfComponent.showString('无视免伤')
+                selfComponent.showString('无视防御')
+                // 攻击
+                fightMap.actionAwaitQueue.push(
+                    selfComponent.attack(self.attack * 1 , target.component)
+                )
+                target.component.state.defence = defenceTemp  // 回复免伤
+                target.component.state.FreeInjuryPercent = FreeInjuryPercentTemp  // 回复防御
+            }
+                
             // 回到原位
             if (fightMap.isPlayAnimation) {
                 await util.subdry.moveNodeToPosition(selfComponent.node , {
@@ -118,11 +136,6 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
-            }
-            // 再次出手 20% 概率
-            if (Math.random() < (self.star >= 3 ? 0.6 : 0.3) ) {
-                if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
-                await self.component.action()
             }
             return
         }
@@ -161,10 +174,18 @@ class Character extends CharacterMetaState {
             }
             // 造成伤害 ...
             for (const target of actionState.targets) {
+                const FreeInjuryPercentTemp = target.component.state.FreeInjuryPercent // 保存免伤率
+                const defenceTemp = target.component.state.defence // 保存防御
+                target.component.state.FreeInjuryPercent = 0 // 免伤为0
+                target.component.state.defence = 0
+                selfComponent.showString('无视免伤')
+                selfComponent.showString('无视防御')
                 // 攻击
-                fightMap.actionAwaitQueue.push(
-                    selfComponent.attack(self.attack * 3.5 , target.component)
+                await fightMap.actionAwaitQueue.push(
+                   selfComponent.attack(self.attack * 3 , target.component)
                 )
+                target.component.state.defence = defenceTemp  // 回复免伤
+                target.component.state.FreeInjuryPercent = FreeInjuryPercentTemp  // 回复防御
             }
             // 回到原位
             if (fightMap.isPlayAnimation) 
@@ -177,11 +198,6 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
-            // 再次出手 20% 概率
-            // if (Math.random() < (self.star >= 3 ? 0.4 : 0.2) ) {
-            //     if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
-            //     await self.component.action()
-            // }
             return
         }
     }

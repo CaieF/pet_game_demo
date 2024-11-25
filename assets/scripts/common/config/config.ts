@@ -133,6 +133,12 @@ class UserData extends Resource {
             equipment: []
         })
         this.addNewCharacter({
+            id: "catGril" ,
+            lv: 100 ,
+            star: 3 ,
+            equipment: []
+        })
+        this.addNewCharacter({
             id: "WereWolf" ,
             lv: 100 ,
             star: 4 ,
@@ -142,6 +148,24 @@ class UserData extends Resource {
             id: "WereBear" ,
             lv: 100 ,
             star: 4 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "WereBison" ,
+            lv: 100 ,
+            star: 4 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "DinoRex" ,
+            lv: 100 ,
+            star: 4 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "WereBisonKing" ,
+            lv: 100 ,
+            star: 5 ,
             equipment: []
         })
         this.addNewCharacter({

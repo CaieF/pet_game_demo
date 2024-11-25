@@ -8,69 +8,75 @@ import { BuffState } from "../../fight/buff/BuffState";
 import { RegisterCharacter } from "../../fight/character/CharacterEnum";
 import { CharacterMetaState } from "../../fight/character/CharacterMetaState";
 import { CharacterState } from "../../fight/character/CharacterState";
+import { EffectState } from "../../fight/effect/EffectState";
+import { log } from "../../../util/out/log";
 
-@RegisterCharacter({id: "cat1"})
+@RegisterCharacter({id: "DinoRex"})
 class Character extends CharacterMetaState {
 
-    name: string = "狸花猫"
+    name: string = "佩克龙"
 
-    AnimationDir: string = "game/fight_entity/character/cat1"
+    AnimationDir: string = "game/fight_entity/character/DinoRex"
 
     AnimationType: "DragonBones" | "Spine" = "DragonBones"
 
-    AvatarPath: string = "game/fight_entity/character/cat1/avatar/spriteFrame"
+    AvatarPath: string = "game/fight_entity/character/DinoRex/avatar/spriteFrame"
 
-    CharacterCamp: "ordinary" | "gold" | "tree" | "water" | "fire"|"stone" = "gold"
+    CharacterCamp: "ordinary" | "gold" | "tree" | "water" | "fire"|"stone" = "water"
 
-    CharacterQuality: number = 3
+    CharacterQuality: number = 4
 
-    AnimationScale: number = 6
+    AnimationScale: number = 1.5
 
-    HpGrowth: number = 50
+    AnimationPosition: { x: number; y: number; } = { x: 0, y: 50};
+
+    HpGrowth: number = 80
 
     AttackGrowth: number = 20
 
-    DefenceGrowth: number = 10
+    DefenceGrowth: number = 14
 
-    PierceGrowth: number = 20
+    PierceGrowth: number = 10
 
-    SpeedGrowth: number = 13
+    SpeedGrowth: number = 12
 
-    Energy: number = 100
+    Block: number = 30;
+
+    Energy: number = 60
 
     AttackIntroduce: string = `
-    
-    攻击目标造成 100% 攻击力的伤害
-    每次攻击后有 30% 概率再次出手
+    对敌人造成 100 % 的伤害
+    并恢复自身 20% 的生命值
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
     
-    额外获得 20% 速度
-    额外获得 20% 攻击力
-    额外获得 20% 护甲穿透
+    额外获得 25% 生命值
+    额外获得 25% 防御值
+    获得 15% 格挡率
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
-    再次出手概率由 30% 提升为 60%
-    额外获得 20% 生命值
-    额外获得 20% 攻击力
+    额外获得 30% 生命值
+    获得 15% 格挡值
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
     
-    造成350%攻击力的伤害
+    对敌人造成250%攻击力的伤害
+    并恢复自身 30% 的生命值
+    并且眩晕敌人1回合
     `.replace(/ /ig , "")
 
     onCreateState(self: CharacterState): void {
         if (self.star >= 2) {
-            self.speed *= 1.2
-            self.attack *= 1.2
-            self.pierce *= 1.2
+            self.maxHp *= 1.25
+            self.defence *= 1.25
+            self.block += 15
         }
-        if (self.star >= 3) {
-            self.maxHp *= 1.2
-            self.attack *= 1.2
+        if (self.star >= 4) {
+            self.maxHp *= 1.3
+            self.block += 15
         }
     }
 
@@ -102,11 +108,15 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
+                const waterblast = new EffectState({id: "WaterBlast"})
+                selfComponent.showEffect(waterblast, -3, 0)
                 await selfComponent.holAnimation.playAnimation("attack" , 1 , selfComponent.defaultState)
             }
             // 造成伤害
-            for (const target of actionState.targets)
+            for (const target of actionState.targets) {
                 await selfComponent.attack(self.attack * 1.0 , target.component)
+            }
+            await selfComponent.cure(self.maxHp * 0.1, selfComponent)  // 恢复生命
             // 回到原位
             if (fightMap.isPlayAnimation) {
                 await util.subdry.moveNodeToPosition(selfComponent.node , {
@@ -118,11 +128,6 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
-            }
-            // 再次出手 20% 概率
-            if (Math.random() < (self.star >= 3 ? 0.6 : 0.3) ) {
-                if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
-                await self.component.action()
             }
             return
         }
@@ -143,6 +148,7 @@ class Character extends CharacterMetaState {
             }
             if (!enemy) return
             actionState.targets.push(enemy.state)
+
             // 播放动画
             if (fightMap.isPlayAnimation) {
                 // 移动过去
@@ -161,11 +167,17 @@ class Character extends CharacterMetaState {
             }
             // 造成伤害 ...
             for (const target of actionState.targets) {
+                // 添加眩晕状态
+                const vertigo = new BuffState({id: "vertigo"})
+                target.component.addBuff(selfComponent , vertigo)
+                // 一回合后去掉
+                fightMap.listenRoundEvent(1 , () => target.component.deleteBuff(vertigo) )
                 // 攻击
                 fightMap.actionAwaitQueue.push(
-                    selfComponent.attack(self.attack * 3.5 , target.component)
+                    selfComponent.attack(self.attack * 2.5 , target.component)
                 )
             }
+            selfComponent.cure(self.maxHp * 0.15, selfComponent)  // 恢复生命
             // 回到原位
             if (fightMap.isPlayAnimation) 
                 await util.subdry.moveNodeToPosition(selfComponent.node , {
@@ -177,11 +189,6 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
-            // 再次出手 20% 概率
-            // if (Math.random() < (self.star >= 3 ? 0.4 : 0.2) ) {
-            //     if (fightMap.isPlayAnimation) await self.component.showString("再次出手")
-            //     await self.component.action()
-            // }
             return
         }
     }

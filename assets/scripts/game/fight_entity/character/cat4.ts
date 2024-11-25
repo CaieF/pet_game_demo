@@ -32,9 +32,9 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 6
 
-    PierceGrowth: number = 15
+    PierceGrowth: number = 28
 
-    SpeedGrowth: number = 15
+    SpeedGrowth: number = 16
 
     Energy: number = 50
 
@@ -43,9 +43,9 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    额外获得 20% 速度
+    获得 20% 伤害率
     额外获得 20% 攻击力
-    额外获得 20% 护甲穿透
+    获得 20% 暴击率
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
@@ -59,9 +59,9 @@ class Character extends CharacterMetaState {
 
     onCreateState(self: CharacterState): void {
         if (self.star >= 2) {
-            self.speed *= 1.2
+            self.hurtPercent += 0.2
             self.attack *= 1.2
-            self.pierce *= 1.2
+            self.critical += 20
         }
         if (self.star >= 3) {
             self.attack *= 1.5

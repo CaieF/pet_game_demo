@@ -32,7 +32,7 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 8
 
-    PierceGrowth: number = 15
+    PierceGrowth: number = 20
 
     SpeedGrowth: number = 12
 
@@ -41,7 +41,7 @@ class Character extends CharacterMetaState {
     AttackIntroduce: string = `
 
     攻击目标以及目标身后的敌人造成 100% 伤害
-    `
+    `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
     
