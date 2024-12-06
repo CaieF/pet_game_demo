@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Event, Label, director } from 'cc';
+import { _decorator, Component, Node, Event, Label, director, toDegree } from 'cc';
 import { HolCharacter } from '../../../prefab/HolCharacter';
 import { util } from '../../../util/util';
 import { FightMap } from './FightMap';

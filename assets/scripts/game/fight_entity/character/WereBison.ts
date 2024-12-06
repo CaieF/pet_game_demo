@@ -34,7 +34,7 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 19
 
-    PierceGrowth: number = 15
+    PierceGrowth: number = 13
 
     SpeedGrowth: number = 14
 
@@ -110,7 +110,9 @@ class Character extends CharacterMetaState {
             // 造成伤害
             for (const target of actionState.targets) {
                 target.component.state.defence *= 0.8
-                target.component.showString('防御下降')
+                if (fightMap.isPlayAnimation) {
+                    await target.component.showString('防御下降')
+                }
                 await selfComponent.attack(self.attack * 1.0 , target.component)
             }
                 
@@ -165,9 +167,12 @@ class Character extends CharacterMetaState {
             for (const target of actionState.targets) {
                 const FreeInjuryPercentTemp = target.component.state.FreeInjuryPercent // 保存免伤率
                 target.component.state.FreeInjuryPercent = 0 // 免伤为0
-                selfComponent.showString('无视免伤')
                 target.component.state.defence *= 0.7
-                target.component.showString('防御下降')
+                if (fightMap.isPlayAnimation) {
+                    await selfComponent.showString('无视免伤')
+                    await target.component.showString('防御下降')
+                }
+
                 // 攻击
                 fightMap.actionAwaitQueue.push(
                     selfComponent.attack(self.attack * 1.5 , target.component)

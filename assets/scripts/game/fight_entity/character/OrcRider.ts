@@ -32,7 +32,7 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 10
 
-    PierceGrowth: number = 20
+    PierceGrowth: number = 18
 
     SpeedGrowth: number = 13
 

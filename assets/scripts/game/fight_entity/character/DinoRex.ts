@@ -36,7 +36,7 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 14
 
-    PierceGrowth: number = 10
+    PierceGrowth: number = 8
 
     SpeedGrowth: number = 12
 
@@ -108,8 +108,11 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
-                const waterblast = new EffectState({id: "WaterBlast"})
-                selfComponent.showEffect(waterblast, -3, 0)
+                if (fightMap.isPlayAnimation) {
+                    // 生成水龙卷特效
+                    const waterblast = new EffectState({id: "WaterBlast"})
+                    await selfComponent.showEffect(waterblast, -3, 0)
+                }
                 await selfComponent.holAnimation.playAnimation("attack" , 1 , selfComponent.defaultState)
             }
             // 造成伤害
@@ -169,7 +172,7 @@ class Character extends CharacterMetaState {
             for (const target of actionState.targets) {
                 // 添加眩晕状态
                 const vertigo = new BuffState({id: "vertigo"})
-                target.component.addBuff(selfComponent , vertigo)
+                await target.component.addBuff(selfComponent , vertigo)
                 // 一回合后去掉
                 fightMap.listenRoundEvent(1 , () => target.component.deleteBuff(vertigo) )
                 // 攻击
@@ -177,7 +180,7 @@ class Character extends CharacterMetaState {
                     selfComponent.attack(self.attack * 2.5 , target.component)
                 )
             }
-            selfComponent.cure(self.maxHp * 0.15, selfComponent)  // 恢复生命
+            await selfComponent.cure(self.maxHp * 0.15, selfComponent)  // 恢复生命
             // 回到原位
             if (fightMap.isPlayAnimation) 
                 await util.subdry.moveNodeToPosition(selfComponent.node , {

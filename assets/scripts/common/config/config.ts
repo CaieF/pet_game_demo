@@ -163,6 +163,12 @@ class UserData extends Resource {
             equipment: []
         })
         this.addNewCharacter({
+            id: "FireWorm" ,
+            lv: 100 ,
+            star: 4 ,
+            equipment: []
+        })
+        this.addNewCharacter({
             id: "WereBisonKing" ,
             lv: 100 ,
             star: 5 ,
@@ -170,6 +176,12 @@ class UserData extends Resource {
         })
         this.addNewCharacter({
             id: "SonGoku" ,
+            lv: 100 ,
+            star: 5 ,
+            equipment: []
+        })
+        this.addNewCharacter({
+            id: "Panda" ,
             lv: 100 ,
             star: 5 ,
             equipment: []

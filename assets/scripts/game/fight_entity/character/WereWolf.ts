@@ -32,7 +32,7 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 12
 
-    PierceGrowth: number = 25
+    PierceGrowth: number = 23
 
     SpeedGrowth: number = 15
 
@@ -53,7 +53,7 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
-    获得 50% 暴击率
+    获得 30% 暴击率
     额外获得 50% 攻击力
     `.replace(/ /ig , "")
 

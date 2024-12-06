@@ -35,7 +35,7 @@ export class CharacterBagpack extends Component {
     
 
     protected async start() {
-        await this.renderAllCharacter();
+        // await this.renderAllCharacter();
     }
 
     // 渲染所有角色

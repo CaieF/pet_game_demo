@@ -6,6 +6,8 @@ import { common } from '../../../common/common/common';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { RoundState } from '../../../game/fight/RoundState';
 import { getConfig } from '../../../common/config/config';
+import levels, { ILevel } from '../../../game/fight_entity/level';
+import { log } from '../../../util/out/log';
 const { ccclass, property } = _decorator;
 
 @ccclass('FightMap')
@@ -28,6 +30,9 @@ export class FightMap extends Component {
 
     // 行动等待队列，若队列有未完成任务则等待完成后进入下一个角色行动
     actionAwaitQueue: Promise<any>[] = []
+
+    // 关卡
+    level: ILevel
     
     protected async start() {
         const holPreLoad = this.node.parent.getChildByName('HolPreLoad').getComponent(HolPreLoad);
@@ -36,18 +41,36 @@ export class FightMap extends Component {
             "普通属性不克制一切属性\n也不会被其他属性克制"
         ])
         holPreLoad.setProcess(20)
-        // 随机地图
-        const images = await util.bundle.loadDir('image/fightMap', SpriteFrame)
-        this.node.getComponent(Sprite).spriteFrame = images[Math.floor(math.randomRange(0, images.length))]
+        // 获取关卡配置
+
+        common.leftCharacter = new Map
+        // const level = levels[`level${2}`]
+        let enemys: CharacterStateCreate[][]
+        this.level = common.level
+        if (this.level) {
+            enemys = this.level.enemyQueue
+            if (enemys) {
+                common.rightCharacter = new Map
+            }
+            log(this.level)
+        }
+        // 关卡地图
+        const image = await util.bundle.load(`image/fightMap/${this.level.map}/spriteFrame`, SpriteFrame)
+        // const images = await util.bundle.loadDir('image/fightMap', SpriteFrame)
+        // this.node.getComponent(Sprite).spriteFrame = images[Math.floor(math.randomRange(0, images.length))]
+        this.node.getComponent(Sprite).spriteFrame = image
         holPreLoad.setProcess(50)
         // 当前进度
         let process = 50
-        common.leftCharacter = new Map
         for (let row = 0; row < 3; row++) {
             for (let col = 0; col < 3; col++) {
                 const character = getConfig().userData.characterQueue[row][col]
+                const enemy = enemys[row][col]
                 if (character) {
-                    await common.leftCharacter.set({row: row + 1, col: col + 1}, character)
+                    common.leftCharacter.set({row: row + 1, col: col + 1}, character)
+                }
+                if (enemy) {
+                    common.rightCharacter.set({row: row + 1, col: col + 1}, enemy)
                 }
             }
 
@@ -72,6 +95,7 @@ export class FightMap extends Component {
         })
         holPreLoad.setProcess(100)
     }
+
 
     // 设置角色
     private async setCharacter(create: CharacterStateCreate, direct: 'left' | 'right', coordinate: { row: number; col: number }) {
@@ -107,7 +131,7 @@ export class FightMap extends Component {
         // 回合开始
         while(this.currentRound <= 150) {
             const roundState = new RoundState
-            const allLiveCharacter = [].concat(this.allLiveCharacter).sort((a , b) => {
+            const allLiveCharacter:HolCharacter[] = [].concat(this.allLiveCharacter).sort((a , b) => {
                 return b.state.speed - a.state.speed
             })
             // 调用回合任务

@@ -32,7 +32,7 @@ class Character extends CharacterMetaState {
 
     DefenceGrowth: number = 10
 
-    PierceGrowth: number = 20
+    PierceGrowth: number = 18
 
     SpeedGrowth: number = 13
 
@@ -105,8 +105,9 @@ class Character extends CharacterMetaState {
                 await selfComponent.holAnimation.playAnimation("attack" , 1 , selfComponent.defaultState)
             }
             // 造成伤害
-            for (const target of actionState.targets)
-                await selfComponent.attack(self.attack * 1.0 , target.component)
+            for (const target of actionState.targets) {
+                await selfComponent.attack(self.attack * 1.0, target.component)
+            }     
             // 回到原位
             if (fightMap.isPlayAnimation) {
                 await util.subdry.moveNodeToPosition(selfComponent.node , {

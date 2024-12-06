@@ -115,12 +115,12 @@ class Character extends CharacterMetaState {
                 const defenceTemp = target.component.state.defence // 保存防御
                 target.component.state.FreeInjuryPercent = 0 // 免伤为0
                 target.component.state.defence = 0
-                selfComponent.showString('无视免伤')
-                selfComponent.showString('无视防御')
+                if (fightMap.isPlayAnimation) {
+                    await selfComponent.showString('无视免伤')
+                    await selfComponent.showString('无视防御')
+                }
                 // 攻击
-                fightMap.actionAwaitQueue.push(
-                    selfComponent.attack(self.attack * 1 , target.component)
-                )
+                await selfComponent.attack(self.attack * 1 , target.component)
                 target.component.state.defence = defenceTemp  // 回复免伤
                 target.component.state.FreeInjuryPercent = FreeInjuryPercentTemp  // 回复防御
             }
@@ -178,17 +178,20 @@ class Character extends CharacterMetaState {
                 const defenceTemp = target.component.state.defence // 保存防御
                 target.component.state.FreeInjuryPercent = 0 // 免伤为0
                 target.component.state.defence = 0
-                selfComponent.showString('无视免伤')
-                selfComponent.showString('无视防御')
-                // 攻击
-                await fightMap.actionAwaitQueue.push(
-                   selfComponent.attack(self.attack * 3 , target.component)
-                )
+                if (fightMap.isPlayAnimation) {
+                    await selfComponent.showString('无视免伤')
+                    await selfComponent.showString('无视防御')
+                }
+                //攻击
+                await selfComponent.attack(self.attack * 3 , target.component)
+                // fightMap.actionAwaitQueue.push(
+                //    selfComponent.attack(self.attack * 3 , target.component)
+                // )
                 target.component.state.defence = defenceTemp  // 回复免伤
                 target.component.state.FreeInjuryPercent = FreeInjuryPercentTemp  // 回复防御
             }
             // 回到原位
-            if (fightMap.isPlayAnimation) 
+            if (fightMap.isPlayAnimation) {
                 await util.subdry.moveNodeToPosition(selfComponent.node , {
                     moveCurve: true ,
                     targetPosition: GetCharacterCoordinatePosition(
@@ -198,6 +201,8 @@ class Character extends CharacterMetaState {
                     ) ,
                     moveTimeScale: self.component.holAnimation.timeScale
                 })
+            }
+                
             return
         }
     }

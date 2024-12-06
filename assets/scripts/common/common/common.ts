@@ -1,10 +1,13 @@
 import { CharacterStateCreate } from "../../game/fight/character/CharacterState";
+import levels, { ILevel } from "../../game/fight_entity/level";
 
 class Common {
     // 左侧队伍
     leftCharacter: Map<{row: number, col: number}, CharacterStateCreate> = new Map();
     // 右侧队伍
     rightCharacter: Map<{row: number, col: number}, CharacterStateCreate> = new Map();
+    // 选择关卡
+    level: ILevel = levels['level1']
 }
 
 // 公共内存

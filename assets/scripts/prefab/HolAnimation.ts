@@ -51,10 +51,14 @@ export class HolAnimation extends Component {
             this.node.position.y + animationOption.animationPosition.y,
             0
         )
+        // 先移除之前的动画组件
+        // if (this.$animationControl) await this.$animationControl.destroy()
+        // this.$animationControl.destroy()
+
         // 动画分类
-        if (animationOption.animationType === 'DragonBones') {
+        if (animationOption.animationType === 'DragonBones' && !this.$animationControl) {
             this.$animationControl = this.node.addComponent(dragonBones.ArmatureDisplay)
-        } else if(animationOption.animationType === 'Spine') {
+        } else if(animationOption.animationType === 'Spine' && !this.$animationControl) {
             this.$animationControl = this.node.addComponent(sp.Skeleton)
         }
         // 加上控制器

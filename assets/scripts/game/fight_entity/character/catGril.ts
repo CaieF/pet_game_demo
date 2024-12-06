@@ -33,9 +33,9 @@ class Character extends CharacterMetaState {
 
     AttackGrowth: number = 20
 
-    DefenceGrowth: number = 7
+    DefenceGrowth: number = 6
 
-    PierceGrowth: number = 15
+    PierceGrowth: number = 13
 
     SpeedGrowth: number = 11
 
@@ -116,7 +116,7 @@ class Character extends CharacterMetaState {
             fightMap.listenRoundEvent(1 , () => selfComponent.deleteBuff(FreeInjury))
             // 增加能量
             self.energy += 60
-            selfComponent.updateUi()
+            await selfComponent.updateUi()
 
             // 回到原位
             if (fightMap.isPlayAnimation) {
@@ -139,6 +139,7 @@ class Character extends CharacterMetaState {
             const selfComponent = self.component
             // 获取敌人
             const enemys = selfComponent.getEnimies(fightMap.allLiveCharacter)
+            if (enemys.length === 0) return
 
             enemys.forEach((enemy, i) => {
                 actionState.targets.push(enemy.state)
@@ -151,8 +152,12 @@ class Character extends CharacterMetaState {
             }
             // 攻击所有敌人
             for (const target of actionState.targets) {
-                const waterblast = new EffectState({id: "WaterBlast"})
-                target.component.showEffect(waterblast, 0, 0)
+                if (fightMap.isPlayAnimation) {
+                    // 生成水龙卷特效
+                    const waterblast = new EffectState({id: "WaterBlast"})
+                    // selfComponent.showEffect(waterblast, 0, 0)
+                    target.component.showEffect(waterblast, 0, 0)
+                }
                 fightMap.actionAwaitQueue.push(
                     selfComponent.attack(self.attack * 1.5,target.component)
                 )

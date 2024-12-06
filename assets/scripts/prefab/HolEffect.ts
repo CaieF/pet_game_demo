@@ -27,6 +27,7 @@ export class HolEffect extends Component {
      * create 特效创建数据
      */
     async initEffect(create: EffectStateCreate, direction: 'left' | 'right') {
+
         // 创建特效状态
         this.state = new EffectState(create, this);
         this.direction = direction

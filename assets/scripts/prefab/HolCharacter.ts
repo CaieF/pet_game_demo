@@ -332,14 +332,17 @@ export class HolCharacter extends Component {
     /**
      * 显示特效
      * @param EffectState 特效
+     * @param speedx 特效x轴速度
+     * @param speedy 特效y轴速度
      */
     async showEffect(EffectState: EffectState, speedx: number = 0, speedy: number = 0) {
+        // if (!this.$fightMap.isPlayAnimation) return
         const holEffectNodePool = util.resource.getNodePool(
             await util.bundle.load('prefab/HolEffect', Prefab)
         )
         const effectNode = holEffectNodePool.get()
         const holEffect = effectNode.getComponent(HolEffect)
-        holEffect.initEffect(EffectState, this.direction)
+        await holEffect.initEffect(EffectState, this.direction)
         this.node.addChild(effectNode)
         const ordinarySibling = effectNode.getSiblingIndex()
         effectNode.setSiblingIndex(9999)
@@ -407,12 +410,12 @@ export class HolCharacter extends Component {
      * @param str 是显示文件
      */
     async showString(str: string) {
-        if (!this.$fightMap.isPlayAnimation) return
+        // if (!this.$fightMap.isPlayAnimation) return
         const node = new Node
         const label = node.addComponent(Label)
         label.font = await util.bundle.load('font/Silver', TTFFont)
         label.string = str
-        label.fontSize = 30
+        label.fontSize = 40
         this.node.addChild(node)
         let index = 0
         const inter = setInterval(() => {

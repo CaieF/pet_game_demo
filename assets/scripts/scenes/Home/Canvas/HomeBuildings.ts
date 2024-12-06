@@ -42,16 +42,17 @@ export class HomeBuildings extends Component {
     // 打开关卡选择场景
     public async OpenLevelMap() {
         const close = await util.message.load();
-        director.preloadScene("Fight", ()=> {
-            close();
-        })
-        director.loadScene("Fight");
+        // director.preloadScene("Fight", ()=> {
+        //     close();
+        // })
+        // director.loadScene("Fight");
+        this.node.parent.getChildByName("HolLevelMap").active = true;
+        close();
     }
 
     // 打开商店场景
     public async OpenShopMap() {
         const close = await util.message.load();
-        console.log(this.node.parent);
         
         this.node.parent.getChildByName("HolShopping").active = true;
         close();
