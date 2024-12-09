@@ -2,6 +2,9 @@ import { _decorator, Component, Node, Event, Label, director, toDegree } from 'c
 import { HolCharacter } from '../../../prefab/HolCharacter';
 import { util } from '../../../util/util';
 import { FightMap } from './FightMap';
+import { common, sceneCommon } from '../../../common/common/common';
+import { log } from '../../../util/out/log';
+import { SCENE } from '../../../common/enums';
 const { ccclass, property } = _decorator;
 
 @ccclass('FightUi')
@@ -10,15 +13,19 @@ export class FightUi extends Component {
     @property(Node) FightMapNode: Node
 
     // 当前倍数
-    private timeScale: number = 1
+    // private timeScale: number = 1
+
+    protected start() {
+        this.node.getChildByName('TimeScale').getChildByName('Value').getComponent(Label).string = 'x' + common.timeScale
+    }
     
     // 倍数
     setTimeScale(e: Event) {
-        this.timeScale++
-        if (this.timeScale > 3) this.timeScale = 1
+        common.timeScale++
+        if (common.timeScale > 3) common.timeScale = 1
         for (const node of this.FightMapNode.children)
-            node.getComponent(HolCharacter).holAnimation.timeScale = this.timeScale
-        e.target.getChildByName('Value').getComponent(Label).string = 'x' + this.timeScale
+            node.getComponent(HolCharacter).holAnimation.timeScale = common.timeScale
+        e.target.getChildByName('Value').getComponent(Label).string = 'x' + common.timeScale
         return
     }
 
@@ -35,7 +42,11 @@ export class FightUi extends Component {
     // 回到主页
     async GoBack() {
         const close = await util.message.load()
-        director.preloadScene('Home', () => close())
+        director.preloadScene('Home', () => {
+            sceneCommon.lastScene = SCENE.FIGHT
+            sceneCommon.currentScene = SCENE.HOME
+            close()
+        })
         director.loadScene('Home')
     }
 }

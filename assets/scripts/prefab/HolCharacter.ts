@@ -12,6 +12,7 @@ import { log } from '../util/out/log';
 import { BuffState } from '../game/fight/buff/BuffState';
 import { HolEffect } from './HolEffect';
 import { EffectState } from '../game/fight/effect/EffectState';
+import { common } from '../common/common/common';
 const { ccclass, property } = _decorator;
 
 // 获取角色坐标
@@ -74,6 +75,7 @@ export class HolCharacter extends Component {
             animationType: this.state.meta.AnimationType ,
             animationPosition: this.state.meta.AnimationPosition
         })
+        this.$holAnimation.timeScale = common.timeScale
         this.node.addChild(animationNode)
         this.$holAnimation.playAnimation('rest')
         // 属性渲染

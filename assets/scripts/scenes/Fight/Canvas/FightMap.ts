@@ -52,7 +52,6 @@ export class FightMap extends Component {
             if (enemys) {
                 common.rightCharacter = new Map
             }
-            log(this.level)
         }
         // 关卡地图
         const image = await util.bundle.load(`image/fightMap/${this.level.map}/spriteFrame`, SpriteFrame)
@@ -60,6 +59,10 @@ export class FightMap extends Component {
         // this.node.getComponent(Sprite).spriteFrame = images[Math.floor(math.randomRange(0, images.length))]
         this.node.getComponent(Sprite).spriteFrame = image
         holPreLoad.setProcess(50)
+        // if (this.level.dialogs) {
+        //     await this.showDialog()
+        // }
+        // holPreLoad.setProcess(50)
         // 当前进度
         let process = 50
         for (let row = 0; row < 3; row++) {

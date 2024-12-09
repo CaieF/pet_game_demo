@@ -1,6 +1,8 @@
 import { _decorator, AudioClip, AudioSource, Component, Node } from 'cc';
 import { getConfig } from '../../common/config/config';
 import { util } from '../../util/util';
+import { common, sceneCommon } from '../../common/common/common';
+import { SCENE } from '../../common/enums';
 const { ccclass, property } = _decorator;
 
 @ccclass('HomeCanvas')
@@ -10,7 +12,8 @@ export class HomeCanvas extends Component {
 
         // 初始化音乐
         await this.initMusic();
-
+        if (sceneCommon.lastScene === SCENE.FIGHT && sceneCommon.currentScene === SCENE.HOME) 
+            this.node.getChildByName('HolLevelMap').active = true
         close();
     }
 

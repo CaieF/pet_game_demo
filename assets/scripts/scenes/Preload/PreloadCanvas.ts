@@ -1,6 +1,8 @@
-import { _decorator, Component, director, Node, SpriteFrame } from 'cc';
+import { _decorator, Component, director, Node, Scene, SpriteFrame } from 'cc';
 import { HolPreLoad } from '../../prefab/HolPreLoad';
 import { util } from '../../util/util';
+import { SCENE } from '../../common/enums';
+import { sceneCommon } from '../../common/common/common';
 const { ccclass, property } = _decorator;
 
 @ccclass('PreloadCanvas')
@@ -12,8 +14,8 @@ export class PreloadCanvas extends Component {
         director.preloadScene("Home");
         // HolPreLoad节点
         holPreLoad.setTips([
-            "気づいたんだ 自分の中 育つのは悪魔の子\n 正義の裏 犠牲の中 心には悪魔の子",
             "Steady we ride, Watching scenes playing out from our past\n Like the smell of her hair, Those times always fly by so fast" ,
+            "気づいたんだ 自分の中 育つのは悪魔の子\n 正義の裏 犠牲の中 心には悪魔の子",
             "Needles broken, The feeling's woken\n Should we just let it all fade, Is it just time", 
         ])
         holPreLoad.setProcess(20);
@@ -33,6 +35,8 @@ export class PreloadCanvas extends Component {
 
         // 监听进度条完成函数
         holPreLoad.listenComplete(() => {
+            sceneCommon.lastScene = SCENE.Preload;
+            sceneCommon.currentScene = SCENE.HOME;
             director.loadScene("Home");
         });
     }

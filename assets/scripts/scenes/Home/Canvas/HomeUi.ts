@@ -1,6 +1,8 @@
 import { _decorator, Component, director, Node } from 'cc';
 import { util } from '../../../util/util';
 import { CharacterBagpack } from '../../Team/Canvas/CharacterBagpack';
+import { sceneCommon } from '../../../common/common/common';
+import { SCENE } from '../../../common/enums';
 const { ccclass, property } = _decorator;
 
 @ccclass('HomeUi')
@@ -9,6 +11,8 @@ export class HomeUi extends Component {
     async OpenHero() {
         const close = await util.message.load();
         director.preloadScene("Hero", ()=> {
+            sceneCommon.lastScene = SCENE.HOME
+            sceneCommon.currentScene = SCENE.HERE
             close();
         })
         director.loadScene("Hero");

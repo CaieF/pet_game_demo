@@ -1,5 +1,6 @@
 import { CharacterStateCreate } from "../../game/fight/character/CharacterState";
 import levels, { ILevel } from "../../game/fight_entity/level";
+import { SCENE } from "../enums";
 
 class Common {
     // 左侧队伍
@@ -8,13 +9,24 @@ class Common {
     rightCharacter: Map<{row: number, col: number}, CharacterStateCreate> = new Map();
     // 选择关卡
     level: ILevel = levels['level1']
+    // 关卡倍速
+    timeScale: number = 1
 }
+
+class SceneCommon {
+    // 上一个场景
+    lastScene: string = SCENE.Preload
+    // 当前场景
+    currentScene: string = SCENE.Preload
+}
+
+//const lastScene: string = SCENE.Preload
 
 // 公共内存
 export const common = new Common
  
-
-
+// 上一个场景
+export const sceneCommon = new SceneCommon
 
 // common.rightCharacter.set({row:2, col: 1}, {
 //     id: 'Orc',

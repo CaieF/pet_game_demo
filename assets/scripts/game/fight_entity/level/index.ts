@@ -9,8 +9,15 @@ export interface ILevel {
   map: string,
   icon: string,
   name: string,
-  position: Vec3
+  position: Vec3,
+  dialogs?: ILevelDialog[]
 } 
+
+// 关卡对话类型
+export interface ILevelDialog {
+  character: CharacterStateCreate
+  dialog: string
+}
 
 const levels: Record<string, ILevel> = {
   level1,

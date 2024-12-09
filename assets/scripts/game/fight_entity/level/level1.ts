@@ -1,5 +1,5 @@
 import { SpriteFrame, Vec3 } from "cc";
-import { ILevel } from ".";
+import { ILevel, ILevelDialog } from ".";
 import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import { util } from "../../../util/util";
 
@@ -21,12 +21,18 @@ const name: string = '哥布林村口'
 
 const position: Vec3 = new Vec3(-100, -100, 0)
 
+const dialogs: ILevelDialog[] = [
+   { character: {id: 'Orc', lv: 1, star: 1, equipment: [] }, dialog: '有入侵者 ！' },
+   { character: {id: 'catGril', lv: 1, star: 1, equipment: [] }, dialog: '哪来的哥布林，去si吧 ' }
+]
+
 const level: ILevel = {
   enemyQueue,
   map,
   icon,
   name,
-  position
+  position,
+  dialogs
 }
 
 

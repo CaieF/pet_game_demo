@@ -1,13 +1,15 @@
-import { _decorator, Component, director, Node, NodeEventType, Prefab } from 'cc';
-import levels, { ILevel } from '../../../game/fight_entity/level';
+import { _decorator, Component, director, find, Node, NodeEventType, Prefab } from 'cc';
+import levels, { ILevel, ILevelDialog } from '../../../game/fight_entity/level';
 import { util } from '../../../util/util';
 import { HolLevel } from '../../../prefab/HolLevel';
-import { FightMap } from '../../Fight/Canvas/FightMap';
-import { common } from '../../../common/common/common';
+import { common, sceneCommon } from '../../../common/common/common';
+import { SCENE } from '../../../common/enums';
+import { HolDialogBox } from '../../../prefab/HolDialogBox';
 const { ccclass, property } = _decorator;
 
 @ccclass('LevelList')
 export class LevelList extends Component {
+
 
     protected async start() {
         await this.renderAllLevels()
@@ -36,14 +38,48 @@ export class LevelList extends Component {
     // 点击关卡
     public async clickLevel(level: ILevel) {
         // 加载动画
+        //const close = await util.message.load()
+        common.level = level
+        if (level.dialogs) {
+            this.showDialog(level.dialogs)
+        } else {
+            this.intoFightMap()
+        }
+
+        
+    }
+
+    // 显示对话
+    public async showDialog(dialog: ILevelDialog[]) {
+        const close = await util.message.load()
+        const nodePool = util.resource.getNodePool(
+            await util.bundle.load('prefab/HolDialogBox', Prefab)
+        )
+        const node = nodePool.get()
+        const holDialogBox = node.getComponent(HolDialogBox)
+        await holDialogBox.initDialogBox(dialog[0])
+        node.getChildByName('background').on(NodeEventType.TOUCH_END, async()=> {
+            if (dialog.length > 1) {
+                //close()
+                nodePool.put(node)
+                await this.showDialog(dialog.slice(1))
+            } else {
+                //close()
+                nodePool.put(node)
+                this.intoFightMap()
+            }
+        })
+        node.setParent(find('Canvas'))
+        close()
+    }
+
+    public async intoFightMap() {
         const close = await util.message.load()
         director.preloadScene("Fight", async()=> {
-            common.level = level
-
+            sceneCommon.lastScene = SCENE.HOME
+            sceneCommon.currentScene = SCENE.FIGHT
             close();
         })
         director.loadScene("Fight");
     }
 }
-
-

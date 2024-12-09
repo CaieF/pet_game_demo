@@ -4,6 +4,8 @@ import { HeroAllHeros } from './HeroAllHeros';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { getConfig } from '../../../common/config/config';
 import { CharacterEnum } from '../../../game/fight/character/CharacterEnum';
+import { sceneCommon } from '../../../common/common/common';
+import { SCENE } from '../../../common/enums';
 const { ccclass, property } = _decorator;
 
 @ccclass('HeroUi')
@@ -12,7 +14,11 @@ export class HeroUi extends Component {
     // 回到主页
     async GoBack() {
         const close = await util.message.load()
-        director.preloadScene('Home', () => close())
+        director.preloadScene('Home', () => {
+            sceneCommon.lastScene = SCENE.HERE
+            sceneCommon.currentScene = SCENE.HOME
+            close()
+        })
         director.loadScene('Home')
     }
 
