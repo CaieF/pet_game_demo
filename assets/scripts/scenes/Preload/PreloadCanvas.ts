@@ -25,6 +25,8 @@ export class PreloadCanvas extends Component {
         await util.message.preloadPrompt();   // 预加载提示框
         holPreLoad.setProcess(40);
         await util.message.preloadLoad();  // 预加载加载框
+        holPreLoad.setProcess(50);
+        await util.message.preloadDialogBox(); // 预加载对话框
         holPreLoad.setProcess(60);
         await util.bundle.loadDir('image/number', SpriteFrame); // 加载数字图片
         holPreLoad.setProcess(70);
@@ -39,10 +41,6 @@ export class PreloadCanvas extends Component {
             sceneCommon.currentScene = SCENE.HOME;
             director.loadScene("Home");
         });
-    }
-
-    update(deltaTime: number) {
-        
     }
 }
 

@@ -9,6 +9,8 @@ import { load as loadMessage, preloadLoad } from "./message/load"
 import { introduce, preloadIntroduce } from "./message/introduce"
 import { moveNodeToPosition } from "./subdry/moveNodeToPosition"
 import { formateNumber } from "./subdry/formateNumber"
+import { sceneDirector } from "./subdry/sceneDirector"
+import { dialogBox, preloadDialogBox } from "./message/dialogBox"
 
 export const util = {
     // 输出对象
@@ -35,10 +37,13 @@ export const util = {
         preloadLoad, // 预加载加载框
         introduce, // 介绍
         preloadIntroduce, // 预加载加载框
+        dialogBox, // 对话弹框
+        preloadDialogBox, // 预加载对话弹框
     },
     // 杂项功能
     subdry: {
         moveNodeToPosition, // 节点移动函数
         formateNumber, // 格式化数字
+        sceneDirector, // 场景跳转管理
     }
 }

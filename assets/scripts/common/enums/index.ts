@@ -1,6 +1,6 @@
 export enum SCENE {
   Preload = 'Preload',
   HOME = 'Home',
-  HERE = 'Here',
+  HERO = 'Hero',
   FIGHT = 'Fight'
 }

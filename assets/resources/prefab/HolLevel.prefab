@@ -42,8 +42,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -125.817,
+      "y": -267.958,
       "z": 0
     },
     "_lrot": {
@@ -93,7 +93,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -47.14,
+      "y": -16.156,
       "z": 0
     },
     "_lrot": {
@@ -133,8 +133,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 94.73678588867188,
-      "height": 37.8
+      "width": 54.52630615234375,
+      "height": 29.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -169,13 +169,13 @@
       "b": 255,
       "a": 255
     },
-    "_string": "哥布林之森",
+    "_string": "断桥之战",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30,
-    "_fontSize": 30,
+    "_actualFontSize": 20,
+    "_fontSize": 20,
     "_fontFamily": "Arial",
-    "_lineHeight": 30,
+    "_lineHeight": 20,
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": {
@@ -189,7 +189,7 @@
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
-    "_enableOutline": false,
+    "_enableOutline": true,
     "_outlineColor": {
       "__type__": "cc.Color",
       "r": 0,
@@ -245,8 +245,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
-      "height": 120
+      "width": 40,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -282,7 +282,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "56b3246c-eb62-446c-a235-9ac0e7ae65bf@f9941",
+      "__uuid__": "a46fafec-f546-4b68-8a54-948adc1426a0@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -390,7 +390,6 @@
       "__id__": 0
     },
     "fileId": "13DA1+jLNL3J1QqEbcwWNc",
-    "instance": null,
     "targetOverrides": null
   }
 ]

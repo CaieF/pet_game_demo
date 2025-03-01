@@ -53,10 +53,15 @@ export class HolConfirmMessage extends Component {
         if (co.selectBoxMessage) {
             const radioNode = this.node.getChildByName('Radio');
             radioNode.active = true;
+            radioNode.getComponent(Toggle).isChecked = false;
             radioNode.getChildByName('RadioMessage').getComponent(Label).string = co.selectBoxMessage;
             radioNode.on('click', () => {
                 co.selectBoxCallback && co.selectBoxCallback(radioNode.getComponent(Toggle).isChecked);
             });
+        } else {
+            const radioNode = this.node.getChildByName('Radio');
+            radioNode.active = false;
+            radioNode.getComponent(Toggle).isChecked = false;
         }
         // 事件
         this.$sureQueue.concat(Array.from(co.sureQueue || []));

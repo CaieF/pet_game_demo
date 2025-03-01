@@ -41,13 +41,7 @@ export class FightUi extends Component {
     // 返回
     // 回到主页
     async GoBack() {
-        const close = await util.message.load()
-        director.preloadScene('Home', () => {
-            sceneCommon.lastScene = SCENE.FIGHT
-            sceneCommon.currentScene = SCENE.HOME
-            close()
-        })
-        director.loadScene('Home')
+        await util.subdry.sceneDirector(SCENE.FIGHT, SCENE.HOME)
     }
 }
 

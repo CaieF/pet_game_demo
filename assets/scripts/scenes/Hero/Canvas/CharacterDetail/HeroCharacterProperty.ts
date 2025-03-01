@@ -4,20 +4,71 @@ import { CharacterEnum } from 'db://assets/scripts/game/fight/character/Characte
 import { CharacterState, CharacterStateCreate } from 'db://assets/scripts/game/fight/character/CharacterState';
 import { HolUserResource } from 'db://assets/scripts/prefab/HolUserResource';
 import { util } from 'db://assets/scripts/util/util';
+import { HeroAllHeros } from '../HeroAllHeros';
 const { ccclass, property } = _decorator;
+
+const BASE_GOLD_COST = 100 // 基础金币
+const BASE_SOUL_COST = 100 // 基础灵魂
+// 角色品质系数
+const qualityFactors = [1.0, 1.2, 1.5, 2.0, 3.0]
+// 星级系数
+const starFactors = [1.0, 1.5, 2.0, 2.5, 3.0];
+// 角色品质分解获得的基础灵魂
+const qualitySouls = [10, 30, 50, 100, 200]
 
 // 升级所需的金币
 function levelUpNeedGold(create: CharacterStateCreate): number {
-    return Math.ceil(
-        CharacterEnum[create.id].CharacterQuality * create.lv * (create.lv / (create.lv + 80) + 1) * 100
-    )
+    // return Math.ceil(
+    //     CharacterEnum[create.id].CharacterQuality * create.lv * (create.lv / (create.lv + 80) + 1) * 100
+    // )
+    // 获取品质系数（品质数值范围是1到5，数组索引范围是0到4）
+    const qualityFactor = qualityFactors[CharacterEnum[create.id].CharacterQuality - 1];
+
+    // 等级系数（非线性增长，随等级增加而增加）
+    const levelFactor = 1 + 0.1 * (create.lv - 1);
+
+    // 计算升级所需金币
+    return Math.ceil(BASE_GOLD_COST * qualityFactor * levelFactor);
 }
 
-// 升级所需钻石
-function levelUpNeedSoule(create: CharacterStateCreate): number {
-    return Math.ceil(
-        CharacterEnum[create.id].CharacterQuality * create.lv * (create.lv / (create.lv + 80) + 1) * 100 * 0.5
-    )
+// 升星所需灵魂
+function levelStarNeedSoule(create: CharacterStateCreate): number {
+    // return Math.ceil(
+    //     CharacterEnum[create.id].CharacterQuality * create.lv * (create.lv / (create.lv + 80) + 1) * 100 * 0.5
+    // )
+    return Math.ceil(BASE_SOUL_COST * qualityFactors[CharacterEnum[create.id].CharacterQuality - 1] * starFactors[create.star - 1]);
+}
+
+// 计算角色已经消耗的金币
+function getTotalGoldCost(create: CharacterStateCreate): number {
+    let totalGold = 0;
+    // 从1级到当前等级，累加每级升级所需金币
+    for (let lv = 1; lv < create.lv; lv++) {
+        const tempCreate = { ...create, lv }; // 临时角色状态，用于计算每级消耗
+        totalGold += levelUpNeedGold(tempCreate);
+    }
+    return totalGold;
+}
+
+// 计算角色已经消耗的灵魂
+function getTotalSoulCost(create: CharacterStateCreate): number {
+    let totalSoul = 0;
+    // 从1星到当前星级，累加每星升星所需灵魂
+    for (let star = 1; star < create.star; star++) {
+        const tempCreate = { ...create, star }; // 临时角色状态，用于计算每星消耗
+        totalSoul += levelStarNeedSoule(tempCreate);
+    }
+    return totalSoul;
+}
+
+// 计算分解角色获得的金币和灵魂
+function getDecomposeGoldSoul(create: CharacterStateCreate): { gold: number, soul: number } {
+    const totalGold = getTotalGoldCost(create);
+    const totalSoul = getTotalSoulCost(create);
+    const qualitySoul = qualitySouls[CharacterEnum[create.id].CharacterQuality - 1];
+    const gold = Math.ceil(totalGold * 0.5);
+    const soul = Math.ceil(totalSoul * 0.5 + qualitySoul);
+    return { gold, soul };
 }
 
 @ccclass('HeroCharacterProperty')
@@ -28,6 +79,11 @@ export class HeroCharacterProperty extends Component {
 
     // 是否询问升级
     private $answerLevelUp: boolean = true
+
+    // 是否询问升星
+    private $answerLevelStar: boolean = true
+
+    @property(Node) HeroAllHeroNode: Node
 
     // 渲染属性
     async renderProperty(create: CharacterStateCreate) {
@@ -51,20 +107,30 @@ export class HeroCharacterProperty extends Component {
         // 是否满级
         if (create.lv >= 100) {
             this.node.getChildByName("LevelUp").active = false
+            this.node.getChildByName("MaxLevel").active = true
         } else {
+            this.node.getChildByName("MaxLevel").active = false
             this.node.getChildByName("LevelUp").active = true
             // 升级所需资源
             this.node.getChildByName("LevelUp")
                 .getChildByName("LevelUpGold")
                 .getChildByName("Value")
                 .getComponent(Label).string = util.subdry.formateNumber(levelUpNeedGold(create))
-            this.node.getChildByName("LevelUp")
-                .getChildByName("LevelUpSoul")
-                .getChildByName("Value")
-                .getComponent(Label).string = util.subdry.formateNumber(levelUpNeedSoule(create))
-            }
         }
 
+        // 是否满星
+        if (create.star >= CharacterEnum[create.id].CharacterQuality) {
+            this.node.getChildByName("LevelStar").active = false
+            this.node.getChildByName("MaxStar").active = true
+        } else {
+            this.node.getChildByName("MaxStar").active = false
+            this.node.getChildByName("LevelStar").active = true
+            this.node.getChildByName("LevelStar")
+                .getChildByName("LevelStarSoul")
+                .getChildByName("Value")
+                .getComponent(Label).string = util.subdry.formateNumber(levelStarNeedSoule(create))
+        }
+    }
     // 显示所有的属性
     async showAllProperty() {
         let message = ``
@@ -94,21 +160,16 @@ export class HeroCharacterProperty extends Component {
             if (result === false) return
         }
         // 资源不足
-        if (
-            config.userData.gold < levelUpNeedGold(this.$state.create) 
-            || 
-            config.userData.soul < levelUpNeedSoule(this.$state.create)
-        ) return await util.message.prompt({message: "资源不足"})
+        if (config.userData.gold < levelUpNeedGold(this.$state.create)) return await util.message.prompt({message: "金币不足"})
         // 资源减少
         config.userData.gold -= levelUpNeedGold(this.$state.create)
-        config.userData.soul -= levelUpNeedSoule(this.$state.create)
         // 角色等级提升
         this.$state.create.lv++
         // 重新渲染
         await this.renderProperty(this.$state.create)
-        find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染
-        const levelUpEffectSkeleton = this.node.getChildByName("LevelUp").getChildByName("LevelUpEffect").getComponent(sp.Skeleton)
-        // //播放声音
+        find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染 
+        const levelUpEffectSkeleton = this.node.getChildByName("LevelUpEffect").getComponent(sp.Skeleton)
+        //播放声音
         const audioSource = levelUpEffectSkeleton.node.getComponent(AudioSource)
         audioSource.volume = config.volume * config.volumeDetail.character
         audioSource.play()
@@ -117,7 +178,71 @@ export class HeroCharacterProperty extends Component {
         levelUpEffectSkeleton.node.children[0]?.getComponent(sp.Skeleton).setAnimation(0 , "animation" , false)
         levelUpEffectSkeleton.setAnimation(0 , "animation" , false)
         levelUpEffectSkeleton.setCompleteListener(() => levelUpEffectSkeleton.node.active = false)
+        
+    }
+
+    // 角色升星
+    async characterLevelStar() {
+        const config = getConfig()
+        // 是否询问
+        if (this.$answerLevelStar) {
+            const result = await util.message.confirm({
+                message: "确定要升星吗?" ,
+                selectBoxMessage: "不再询问" ,
+                selectBoxCallback: (b: boolean) => {this.$answerLevelStar = !b}
+            })
+            // 是否确定
+            if (result === false) return
+        }
+        // 资源不足
+        if (config.userData.soul < levelStarNeedSoule(this.$state.create)) return await util.message.prompt({message: "灵魂不足"})
+        // 资源减少
+        config.userData.soul -= levelStarNeedSoule(this.$state.create)
+        // 角色星级提升
+        this.$state.create.star++
+        // 重新渲染
+        await this.renderProperty(this.$state.create)
+        find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染
+        const levelStarEffectSkeleton = this.node.getChildByName("LevelStarEffect").getComponent(sp.Skeleton)
+        // //播放声音
+        const audioSource = levelStarEffectSkeleton.node.getComponent(AudioSource)
+        audioSource.volume = config.volume * config.volumeDetail.character
+        audioSource.play()
+        // 播放动画
+        levelStarEffectSkeleton.node.active = true
+        levelStarEffectSkeleton.node.children[0]?.getComponent(sp.Skeleton).setAnimation(0 , "animation" , false)
+        levelStarEffectSkeleton.setAnimation(0 , "animation" , false)
+        levelStarEffectSkeleton.setCompleteListener(() => {
+            levelStarEffectSkeleton.node.active = false     
+        })
+        
+    }
+
+    // 分解角色
+    async decomposeCharacter() {
+        const config = getConfig()
+        const { gold, soul } = getDecomposeGoldSoul(this.$state.create)
+        const result = await util.message.confirm({
+            message: `是否分解角色?
+                    分解获得的金币: ${gold}
+                    分解获得的灵魂: ${soul}`
+        })
+        // 是否确定
+        if (result === false) return
+        config.userData.gold += gold
+        config.userData.soul += soul
+        // 角色移除 todo
+        config.userData.deleteCharacter(this.$state.create.uuid)
+        // 重新渲染
+        this.node.parent.active = false
+        find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染 
+        const close = await util.message.load()
+        const characterQueue = []
+        config.userData.characterQueue.forEach(cq => cq.forEach(c => { if(c) characterQueue.push(c) }))
+        await this.HeroAllHeroNode.getComponent(HeroAllHeros).render([].concat(characterQueue, config.userData.characters))
+        close()
     }
 }
+
 
 

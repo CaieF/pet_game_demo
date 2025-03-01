@@ -4,9 +4,9 @@ import { ItemStateCreate } from "../../game/fight/item/ItemState";
 
 // 资源
 export class Resource {
-    gold: number = 100000000;
+    gold: number = 100000;
     diamond: number = 100000
-    soul: number = 100000000
+    soul: number = 100000
 }
 
 class VolumeDetail {
@@ -50,31 +50,31 @@ class UserData extends Resource {
         // 测试角色
         this.addNewCharacter({
             id: "SlimeOrdinary" ,
-            lv: 100 ,
+            lv: 1 ,
             star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "SlimeGold" ,
-            lv: 100 ,
+            lv: 1 ,
             star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "SlimeTree" ,
-            lv: 100 ,
+            lv: 5 ,
             star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "SlimeWater" ,
-            lv: 100 ,
+            lv: 5 ,
             star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "SlimeFire" ,
-            lv: 100 ,
+            lv: 10 ,
             star: 1 ,
             equipment: []
         })
@@ -92,44 +92,44 @@ class UserData extends Resource {
         })
         this.addNewCharacter({
             id: "OrcArmored" ,
-            lv: 100 ,
+            lv: 1 ,
             star: 2 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "OrcElite" ,
-            lv: 100 ,
+            lv: 10 ,
             star: 2 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "OrcRider" ,
             lv: 100 ,
-            star: 3 ,
+            star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "cat3" ,
-            lv: 100 ,
-            star: 3 ,
+            lv: 1 ,
+            star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "cat1" ,
-            lv: 100 ,
-            star: 3 ,
+            lv: 10 ,
+            star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "cat2" ,
-            lv: 100 ,
-            star: 3 ,
+            lv: 99 ,
+            star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
             id: "cat4" ,
             lv: 100 ,
-            star: 3 ,
+            star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
@@ -140,8 +140,8 @@ class UserData extends Resource {
         })
         this.addNewCharacter({
             id: "WereWolf" ,
-            lv: 100 ,
-            star: 4 ,
+            lv: 99 ,
+            star: 1 ,
             equipment: []
         })
         this.addNewCharacter({
@@ -212,6 +212,23 @@ class UserData extends Resource {
             uuid: ++globalId
         })
         if (this.hasCollectCharacterId.indexOf(character.id) === -1) this.hasCollectCharacterId.push(character.id)
+    }
+
+    // 删除角色
+    public deleteCharacter(uuid: number) {
+        // 检测是否在characterQueue中
+        for (let i = 0; i < this.characterQueue.length; i++) {
+            for (let j = 0; j < this.characterQueue[i].length; j++) {
+                if (this.characterQueue[i][j] && this.characterQueue[i][j].uuid === uuid) {
+                    this.characterQueue[i][j] = null;
+                    return;
+                }
+            }
+        }
+        
+        const index = this.characters.findIndex(c => c.uuid === uuid);
+        if (index === -1) return;
+        this.characters.splice(index, 1);
     }
 }
 
