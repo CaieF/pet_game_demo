@@ -9,7 +9,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('HeroUi')
 export class HeroUi extends Component {
-    
+    @property(Node) DecomposeAll: Node = null
+
     // 回到主页
     async GoBack() {
         await util.subdry.sceneDirector(SCENE.HERO, SCENE.HOME)
@@ -44,6 +45,11 @@ export class HeroUi extends Component {
             close()
             e.target.getChildByName('Light').active = true
         }
+    }
+
+    // 一键分解精灵
+    async decomposeAll() {
+        this.DecomposeAll.active = true;
     }
 }
 

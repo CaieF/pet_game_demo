@@ -10,6 +10,7 @@ import { introduce, preloadIntroduce } from "./message/introduce"
 import { moveNodeToPosition } from "./subdry/moveNodeToPosition"
 import { formateNumber } from "./subdry/formateNumber"
 import { sceneDirector } from "./subdry/sceneDirector"
+import { levelUpNeedGold, levelStarNeedSoule, getTotalGoldCost, getTotalSoulCost, getDecomposeGoldSoul, levelUpNeedGoldByNum, getMaxLevelByGold, } from "./subdry/resourceCost"
 import { dialogBox, preloadDialogBox } from "./message/dialogBox"
 
 export const util = {
@@ -39,6 +40,15 @@ export const util = {
         preloadIntroduce, // 预加载加载框
         dialogBox, // 对话弹框
         preloadDialogBox, // 预加载对话弹框
+    },
+    resourceCost: {
+        levelUpNeedGold, // 升级需要的金币
+        levelStarNeedSoule, // 升星需要的魂石
+        getTotalGoldCost, // 获取总金币消耗
+        getTotalSoulCost, // 获取总魂石消耗
+        getDecomposeGoldSoul, // 获取分解金币魂石
+        levelUpNeedGoldByNum, // 计算升级 num 级所需金币
+        getMaxLevelByGold, // 根据金币数计算能升的最大等级
     },
     // 杂项功能
     subdry: {

@@ -4,9 +4,9 @@ import { ItemStateCreate } from "../../game/fight/item/ItemState";
 
 // 资源
 export class Resource {
-    gold: number = 100000;
-    diamond: number = 100000
-    soul: number = 100000
+    gold: number = 2000;
+    diamond: number = 1000
+    soul: number = 10
 }
 
 class VolumeDetail {
@@ -230,6 +230,28 @@ class UserData extends Resource {
         if (index === -1) return;
         this.characters.splice(index, 1);
     }
+
+    /** 
+    // 筛选对应品质并且等级为一级的角色
+    public filterCharacterByQuality(quality: number): CharacterStateCreate[] {
+        // 检测是否在characterQueue中
+        const result: CharacterStateCreate[] = [];
+        for (let i = 0; i < this.characterQueue.length; i++) {
+            for (let j = 0; j < this.characterQueue[i].length; j++) {
+                if (this.characterQueue[i][j] && CharacterEnum[this.characterQueue[i][j].id].CharacterQuality === quality && this.characterQueue[i][j].lv === 1) {
+                    result.push(this.characterQueue[i][j]);
+                }
+            }
+        }
+        // 再检查characters中
+        this.characters.forEach(c => {
+            if (CharacterEnum[c.id].CharacterQuality === quality && c.lv === 1) {
+                result.push(c);
+            }
+        })
+        return result;
+    }
+    */
 }
 
 class Config {
