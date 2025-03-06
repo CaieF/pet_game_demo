@@ -28,26 +28,6 @@ export const common = new Common
 // 上一个场景
 export const sceneCommon = new SceneCommon
 
-// common.rightCharacter.set({row:2, col: 1}, {
-//     id: 'Orc',
-//     lv: 1,
-//     star: 1,
-//     equipment: []
-// })
-
-// common.rightCharacter.set({row:2, col: 2}, {
-//     id: 'Orc',
-//     lv: 1,
-//     star: 1,
-//     equipment: []
-// })
-
-// common.rightCharacter.set({row:2, col: 3}, {
-//     id: 'Orc',
-//     lv: 1,
-//     star: 1,
-//     equipment: []
-// })
 
 common.rightCharacter.set({row:1, col: 3}, {
     id: 'cat4',

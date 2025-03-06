@@ -1,12 +1,15 @@
 import { CharacterStateCreate } from "../../game/fight/character/CharacterState";
 import { EquipmentStateCreate } from "../../game/fight/equipment/EquipmentState";
 import { ItemStateCreate } from "../../game/fight/item/ItemState";
+import levels, { IUserLevelProcess } from "../../game/fight_entity/level";
+
 
 // 资源
 export class Resource {
     gold: number = 2000;
     diamond: number = 1000
     soul: number = 10
+    draw: number = 0
 }
 
 class VolumeDetail {
@@ -16,6 +19,8 @@ class VolumeDetail {
     home: number = 1;
     // 角色音量
     character: number = 1;
+    // 商店音量
+    shop: number = 2;
 
     constructor(v?: Partial<VolumeDetail>) {
         if (!v) return;
@@ -36,6 +41,12 @@ class UserData extends Resource {
     public backpack: ItemStateCreate[] = [];
 
     public characters: CharacterStateCreate[] = [];
+
+    // 关卡进度
+    public levelProcess: IUserLevelProcess = {
+        levels: levels,
+        currentLevel: 1,
+    }
 
     public characterQueue: CharacterStateCreate[][] = [
         [null, null, null],
@@ -231,27 +242,13 @@ class UserData extends Resource {
         this.characters.splice(index, 1);
     }
 
-    /** 
-    // 筛选对应品质并且等级为一级的角色
-    public filterCharacterByQuality(quality: number): CharacterStateCreate[] {
-        // 检测是否在characterQueue中
-        const result: CharacterStateCreate[] = [];
-        for (let i = 0; i < this.characterQueue.length; i++) {
-            for (let j = 0; j < this.characterQueue[i].length; j++) {
-                if (this.characterQueue[i][j] && CharacterEnum[this.characterQueue[i][j].id].CharacterQuality === quality && this.characterQueue[i][j].lv === 1) {
-                    result.push(this.characterQueue[i][j]);
-                }
-            }
+    // 初始化关卡进度
+    public initLevelProcess() {
+        this.levelProcess = {
+            levels: levels,
+            currentLevel: 1,
         }
-        // 再检查characters中
-        this.characters.forEach(c => {
-            if (CharacterEnum[c.id].CharacterQuality === quality && c.lv === 1) {
-                result.push(c);
-            }
-        })
-        return result;
     }
-    */
 }
 
 class Config {

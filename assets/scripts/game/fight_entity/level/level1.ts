@@ -10,6 +10,7 @@ const enemyQueue: CharacterStateCreate[][] = [
   [null, null, {id: 'Orc', lv: 1, star: 1, equipment: [] }]
 ]
 
+const id: number = 1
 // 关卡地图
 const map: string = '9'
 //const map: SpriteFrame = await util.bundle.load('image/fightMap/9', SpriteFrame)
@@ -27,6 +28,9 @@ const dialogs: ILevelDialog[] = [
 ]
 
 const level: ILevel = {
+  id,
+  isUnlock: true,
+  star: 0,
   enemyQueue,
   map,
   icon,

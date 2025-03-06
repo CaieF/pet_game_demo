@@ -44,7 +44,7 @@ export class HeroLevelUpAll extends Component {
     // 确实升级
     async confirmLevelUp() {
         const config = getConfig();
-        if (this.needGold > config.userData.gold) return await util.message.prompt({message: "金币不足"})
+        if (this.needGold > config.userData.gold) return await util.message.prompt({message: "铜钱不足"})
         config.userData.gold -= this.needGold;
         this.state.create.lv += this.levelNum;
         this.HeroCharacterPropertyNode.getComponent(HeroCharacterProperty).LevelUpEffect(); // 升级特效以及渲染
@@ -63,7 +63,7 @@ export class HeroLevelUpAll extends Component {
     }
 
     updateTips() {
-        this.TipNode.getComponent(Label).string = `将花费金币    ：${this.needGold},升到${this.state.create.lv + this.levelNum}级`;
+        this.TipNode.getComponent(Label).string = `将花费铜钱    ：${this.needGold},升到${this.state.create.lv + this.levelNum}级`;
     }
 }
 

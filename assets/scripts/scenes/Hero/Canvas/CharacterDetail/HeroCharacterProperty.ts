@@ -99,7 +99,7 @@ export class HeroCharacterProperty extends Component {
             if (result === false) return
         }
         // 资源不足
-        if (config.userData.gold < util.resourceCost.levelUpNeedGold(this.$state.create)) return await util.message.prompt({message: "金币不足"})
+        if (config.userData.gold < util.resourceCost.levelUpNeedGold(this.$state.create)) return await util.message.prompt({message: "铜钱不足"})
         // 资源减少
         config.userData.gold -= util.resourceCost.levelUpNeedGold(this.$state.create)
         // 角色等级提升
@@ -168,8 +168,8 @@ export class HeroCharacterProperty extends Component {
         const { gold, soul } = util.resourceCost.getDecomposeGoldSoul(this.$state.create)
         const result = await util.message.confirm({
             message: `是否分解角色?
-                    分解获得的金币: ${gold}
-                    分解获得的灵魂: ${soul}`
+                    分解获得的铜钱: ${gold}
+                    分解获得的元气: ${soul}`
         })
         // 是否确定
         if (result === false) return

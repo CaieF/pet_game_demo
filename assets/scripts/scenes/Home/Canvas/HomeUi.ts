@@ -18,6 +18,14 @@ export class HomeUi extends Component {
         await this.node.parent.getChildByName("HolTeam").getChildByName('CharacterBagpack').getComponent(CharacterBagpack).renderAllCharacter();
         close();
     }
+
+    // 打开星图界面
+    async OpenStarMap() {
+        const close = await util.message.load();
+        
+        this.node.parent.getChildByName("HolStarMap").active = true;
+        close();
+    }
 }
 
 

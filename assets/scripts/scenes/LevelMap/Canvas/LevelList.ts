@@ -1,9 +1,11 @@
 import { _decorator, Component, NodeEventType, Prefab } from 'cc';
-import levels, { ILevel, ILevelDialog } from '../../../game/fight_entity/level';
+import { ILevel, ILevelDialog } from '../../../game/fight_entity/level';
 import { util } from '../../../util/util';
 import { HolLevel } from '../../../prefab/HolLevel';
 import { common, sceneCommon } from '../../../common/common/common';
 import { SCENE } from '../../../common/enums';
+import { getConfig } from '../../../common/config/config';
+import { log } from '../../../util/out/log';
 const { ccclass, property } = _decorator;
 
 @ccclass('LevelList')
@@ -16,19 +18,26 @@ export class LevelList extends Component {
     
     // 渲染所有的关卡
     public async renderAllLevels() {
-        const leves = levels
+        const config = getConfig()
+        const levels = config.userData.levelProcess.levels
         // 加载动画
         const close = await util.message.load()
         const nodePool = util.resource.getNodePool(
             await util.bundle.load('prefab/HolLevel', Prefab)
         )
-        for (const key in leves) {
+        for (const key in levels) {
             const node = nodePool.get()
             const holLevel = node.getComponent(HolLevel)
-            await holLevel.setLevel(leves[key])
-            node.on(NodeEventType.TOUCH_END, () => {
-                this.clickLevel(levels[key])
-            }, node)
+            await holLevel.setLevel(levels[key])
+            if (config.userData.levelProcess.currentLevel >= levels[key].id) {
+                node.on(NodeEventType.TOUCH_END, () => {
+                    this.clickLevel(levels[key])
+                }, node)
+            } else {
+                node.on(NodeEventType.TOUCH_END, async() => {
+                    await util.message.prompt({message: "关卡未解锁"})
+                }, node)
+            }
             this.node.addChild(node)
         }
         close()

@@ -3,6 +3,7 @@ import { HolPreLoad } from '../../prefab/HolPreLoad';
 import { util } from '../../util/util';
 import { SCENE } from '../../common/enums';
 import { sceneCommon } from '../../common/common/common';
+import { PreloadTips } from '../../common/Tips';
 const { ccclass, property } = _decorator;
 
 @ccclass('PreloadCanvas')
@@ -13,11 +14,7 @@ export class PreloadCanvas extends Component {
         const holPreLoad = this.node.getChildByName("HolPreLoad").getComponent(HolPreLoad);
         director.preloadScene("Home");
         // HolPreLoad节点
-        holPreLoad.setTips([
-            "Steady we ride, Watching scenes playing out from our past\n Like the smell of her hair, Those times always fly by so fast" ,
-            "気づいたんだ 自分の中 育つのは悪魔の子\n 正義の裏 犠牲の中 心には悪魔の子",
-            "Needles broken, The feeling's woken\n Should we just let it all fade, Is it just time", 
-        ])
+        holPreLoad.setTips(PreloadTips)
         holPreLoad.setProcess(20);
 
         await util.message.preloadConfirm(); // 预加载确认框

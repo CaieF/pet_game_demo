@@ -8,6 +8,7 @@ import { RoundState } from '../../../game/fight/RoundState';
 import { getConfig } from '../../../common/config/config';
 import levels, { ILevel } from '../../../game/fight_entity/level';
 import { log } from '../../../util/out/log';
+import { FightTips } from '../../../common/Tips';
 const { ccclass, property } = _decorator;
 
 @ccclass('FightMap')
@@ -21,6 +22,9 @@ export class FightMap extends Component {
 
     // 所有回合任务
     allRoundQueue: Map<number, Function[]> = new Map
+
+    // 上阵角色数
+    characterCount: number = 0
 
     // 所有存活的jues
     allLiveCharacter: HolCharacter[] = []
@@ -36,10 +40,7 @@ export class FightMap extends Component {
     
     protected async start() {
         const holPreLoad = this.node.parent.getChildByName('HolPreLoad').getComponent(HolPreLoad);
-        holPreLoad.setTips([
-            "金->木->土->水->火->金\n不同属性之间相互克制，巧用属性可以出奇制胜" ,
-            "普通属性不克制一切属性\n也不会被其他属性克制"
-        ])
+        holPreLoad.setTips(FightTips)
         holPreLoad.setProcess(20)
         // 获取关卡配置
 
@@ -70,6 +71,7 @@ export class FightMap extends Component {
                 const character = getConfig().userData.characterQueue[row][col]
                 const enemy = enemys[row][col]
                 if (character) {
+                    this.characterCount++
                     common.leftCharacter.set({row: row + 1, col: col + 1}, character)
                 }
                 if (enemy) {
@@ -180,6 +182,34 @@ export class FightMap extends Component {
     
     // 战斗胜利结算
     private async fightSuccess() {
+        const config = getConfig();
+        const lifeRate = this.allLiveCharacter.length / this.characterCount
+        let star = 0
+        const starNode = this.node.parent.getChildByName("FightSuccess").getChildByName("Star")
+        if (lifeRate < 0.4) {
+            star = 1
+        } else if (lifeRate < 0.8) {
+            star = 2
+        } else {
+            star = 3
+        }
+        for (let i = 2; i <= 3; i++) {
+            if (i <= star) {
+                starNode.getChildByName(`Star${i}`).getChildByName("S").active = true
+            } else {
+                starNode.getChildByName(`Star${i}`).getChildByName("S").active = false
+            }
+        }
+
+        if (star > this.level.star) {
+            // this.level.star = star
+            // config.userData.levelProcess[this.level.id] = this.level.star
+            config.userData.levelProcess.levels[`level${this.level.id}`].star = star
+        }
+        if (this.level.id === config.userData.levelProcess.currentLevel) {
+            config.userData.levelProcess.currentLevel++
+            config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`].isUnlock = true
+        }
         this.node.parent.getChildByName("FightUi").getChildByName("GoBack").active = true
         this.node.parent.getChildByName("FightFailure").active = false
         this.node.parent.getChildByName("FightSuccess").active = true

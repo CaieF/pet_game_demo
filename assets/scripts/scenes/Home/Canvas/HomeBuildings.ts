@@ -2,6 +2,7 @@ import { _decorator, Component, director, EventTouch, math, Node, screen } from 
 import { getConfig } from '../../../common/config/config';
 import { log } from '../../../util/out/log';
 import { util } from '../../../util/util';
+import { SCENE } from '../../../common/enums';
 const { ccclass, property } = _decorator;
 
 @ccclass('HomeBuildings')
@@ -52,10 +53,7 @@ export class HomeBuildings extends Component {
 
     // 打开商店场景
     public async OpenShopMap() {
-        const close = await util.message.load();
-        
-        this.node.parent.getChildByName("HolShopping").active = true;
-        close();
+        await util.subdry.sceneDirector(SCENE.HOME, SCENE.SHOP)
     }
     
 }

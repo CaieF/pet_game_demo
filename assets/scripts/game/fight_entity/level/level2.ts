@@ -9,6 +9,7 @@ const enemyQueue: CharacterStateCreate[][] = [
   [null, null, {id: 'Orc', lv: 5, star: 1, equipment: [] }]
 ]
 
+const id: number = 2
 const map: string = '9'
 
 // 关卡图标
@@ -21,6 +22,9 @@ const position: Vec3 = new Vec3(82, -58, 0)
 // {x: number, y: number} = { x: -115, y: 66 }
 
 const level: ILevel = {
+  id,
+  isUnlock: false,
+  star: 0,
   enemyQueue,
   map,
   icon,

@@ -23,7 +23,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 474
+      "__id__": 475
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -54,7 +54,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 475
+      "__id__": 476
     },
     "_id": "1cb81ffb-7090-449a-ae77-16c0089a14e8"
   },
@@ -105,6 +105,9 @@
       },
       {
         "__id__": 473
+      },
+      {
+        "__id__": 474
       }
     ],
     "_prefab": null,
@@ -196,7 +199,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 422.15962441314554,
+    "_orthoHeight": 465.3040103492885,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -17317,9 +17320,6 @@
     "TipNode": {
       "__id__": 444
     },
-    "LevelUpEffectNode": {
-      "__id__": 342
-    },
     "_id": "5adjP67QBCw59t9qDpPBbE"
   },
   {
@@ -17632,6 +17632,22 @@
     "_id": "d3QFV9MohMardxHqBDjshq"
   },
   {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_clip": null,
+    "_loop": false,
+    "_playOnAwake": true,
+    "_volume": 1,
+    "_id": "e8PpmK3h9A06DU/LAxxwxc"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
@@ -17650,28 +17666,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 476
-    },
-    "shadows": {
       "__id__": 477
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 478
     },
-    "fog": {
+    "_skybox": {
       "__id__": 479
     },
-    "octree": {
+    "fog": {
       "__id__": 480
     },
-    "skin": {
+    "octree": {
       "__id__": 481
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 482
     },
-    "postSettings": {
+    "lightProbeInfo": {
       "__id__": 483
+    },
+    "postSettings": {
+      "__id__": 484
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

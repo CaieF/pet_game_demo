@@ -11,6 +11,7 @@ const enemyQueue: CharacterStateCreate[][] = [
 
 const map: string = '9'
 
+const id: number = 3
 // 关卡图标
 const icon: string = 'image/map_enemy/orc/spriteFrame'
 
@@ -21,6 +22,9 @@ const position: Vec3 = new Vec3(-43.3, -152.5, 0)
 // {x: number, y: number} = { x: -115, y: 66 }
 
 const level: ILevel = {
+  id,
+  isUnlock: false,
+  star: 0,
   enemyQueue,
   map,
   icon,
