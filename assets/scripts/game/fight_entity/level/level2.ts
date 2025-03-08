@@ -1,36 +1,31 @@
-import { Vec3 } from "cc";
-import { ILevel } from ".";
-import { CharacterStateCreate } from "../../fight/character/CharacterState";
-
-// 关卡敌人
-const enemyQueue: CharacterStateCreate[][] = [
-  [null, {id: 'Orc', lv: 5, star: 1, equipment: [] }, null],
-  [{id: 'Orc', lv: 5, star: 1, equipment: [] }, null, null],
-  [null, null, {id: 'Orc', lv: 5, star: 1, equipment: [] }]
-]
+import { Vec3 } from "cc"
+import { ILevel, ILevelDialog } from "."
+import { LEVELTYPE } from "../../../common/enums"
 
 const id: number = 2
-const map: string = '9'
 
 // 关卡图标
-const icon: string = 'image/map_enemy/orc/spriteFrame'
+const icon: string = 'image/map_icon/map_icon_lever/spriteFrame'
 
-const name: string = '部落之战1'
+const name: string = '杠杆式过桥'
 
-const position: Vec3 = new Vec3(82, -58, 0)
+const position: Vec3 = new Vec3(120, -151, 0)
 
-// {x: number, y: number} = { x: -115, y: 66 }
+const dialogs: ILevelDialog[] = [
+   { character: {id: 'cat1', lv: 1, star: 1, equipment: [] }, dialog: '这儿有个断桥，我们跳过去吧' },
+   { character: {id: 'catGril', lv: 1, star: 1, equipment: [] }, dialog: '！！！！！Stop!！！！！！, 你们是成了精的猫咪，跳得过去, 我还只是个女孩，怎么可能跳得过去' },
+   { character: {id: 'cat4', lv: 1, star: 1, equipment: [] }, dialog: '这有跟木棍，不如我们用杠杆原理想办法带你过去吧 ' },
+]
 
 const level: ILevel = {
-  id,
-  isUnlock: false,
-  star: 0,
-  enemyQueue,
-  map,
-  icon,
-  name,
-  position
+    id,
+    type: LEVELTYPE.GAME,
+    icon,
+    star: 0,
+    isUnlock: false,
+    name,
+    position,
+    dialogs,
 }
-
 
 export default level

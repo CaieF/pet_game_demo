@@ -13,7 +13,7 @@ export class HomeCanvas extends Component {
 
         // 初始化音乐
         await this.node.getComponent(CommonCanvas).initMusic(MUSICFOLDER.HOME, getConfig().volumeDetail.home)
-        if (sceneCommon.lastScene === SCENE.FIGHT && sceneCommon.currentScene === SCENE.HOME) 
+        if ((sceneCommon.lastScene === SCENE.FIGHT || sceneCommon.lastScene === SCENE.GAME) && sceneCommon.currentScene === SCENE.HOME) 
             this.node.getChildByName('HolLevelMap').active = true
         close();
     }

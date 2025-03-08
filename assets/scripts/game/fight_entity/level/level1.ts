@@ -2,6 +2,7 @@ import { SpriteFrame, Vec3 } from "cc";
 import { ILevel, ILevelDialog } from ".";
 import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import { util } from "../../../util/util";
+import { LEVELTYPE } from "../../../common/enums";
 
 // 关卡敌人
 const enemyQueue: CharacterStateCreate[][] = [
@@ -29,6 +30,7 @@ const dialogs: ILevelDialog[] = [
 
 const level: ILevel = {
   id,
+  type: LEVELTYPE.FIGHT,
   isUnlock: true,
   star: 0,
   enemyQueue,

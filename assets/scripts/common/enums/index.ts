@@ -4,6 +4,7 @@ export enum SCENE {
   HERO = 'Hero',
   FIGHT = 'Fight',
   SHOP = 'Shop',
+  GAME = 'Game',
 }
 
 export enum MUSICFOLDER {
@@ -19,4 +20,10 @@ export enum RESOURCE {
   SOUL = 'soul',  // 魂石
   DIAMOND = 'diamond',  // 钻石
   DRAW = 'draw',  // 抽奖券
+}
+
+// 关卡类型
+export enum LEVELTYPE {
+  FIGHT = 'fight',  // 战斗关卡
+  GAME = 'game',  // 小游戏关卡
 }

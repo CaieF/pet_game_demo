@@ -9,7 +9,7 @@ export class Resource {
     gold: number = 2000;
     diamond: number = 1000
     soul: number = 10
-    draw: number = 0
+    draw: number = 20
 }
 
 class VolumeDetail {

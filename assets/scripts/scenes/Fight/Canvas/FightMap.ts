@@ -208,7 +208,8 @@ export class FightMap extends Component {
         }
         if (this.level.id === config.userData.levelProcess.currentLevel) {
             config.userData.levelProcess.currentLevel++
-            config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`].isUnlock = true
+            if (config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`])
+                config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`].isUnlock = true
         }
         this.node.parent.getChildByName("FightUi").getChildByName("GoBack").active = true
         this.node.parent.getChildByName("FightFailure").active = false

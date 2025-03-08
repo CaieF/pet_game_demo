@@ -26,6 +26,11 @@ export class HomeUi extends Component {
         this.node.parent.getChildByName("HolStarMap").active = true;
         close();
     }
+
+    // 打开科普界面
+    async OpenBook() {
+        
+    }
 }
 
 

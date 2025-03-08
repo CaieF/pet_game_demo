@@ -3,7 +3,7 @@ import { ILevel, ILevelDialog } from '../../../game/fight_entity/level';
 import { util } from '../../../util/util';
 import { HolLevel } from '../../../prefab/HolLevel';
 import { common, sceneCommon } from '../../../common/common/common';
-import { SCENE } from '../../../common/enums';
+import { LEVELTYPE, SCENE } from '../../../common/enums';
 import { getConfig } from '../../../common/config/config';
 import { log } from '../../../util/out/log';
 const { ccclass, property } = _decorator;
@@ -49,9 +49,13 @@ export class LevelList extends Component {
         if (level.dialogs) {
             this.showDialog(level.dialogs)
         } else {
-            util.subdry.sceneDirector(SCENE.HOME, SCENE.FIGHT)
+            if (level.type === LEVELTYPE.FIGHT)
+                util.subdry.sceneDirector(SCENE.HOME, SCENE.FIGHT)
+            else
+                util.subdry.sceneDirector(SCENE.HOME, SCENE.GAME)
         }
     }
+
 
     // 显示对话
     public async showDialog(dialog: ILevelDialog[]) {
@@ -61,7 +65,10 @@ export class LevelList extends Component {
             if (dialog.length > 1) {
                 await this.showDialog(dialog.slice(1))
             } else {
-                util.subdry.sceneDirector(SCENE.HOME, SCENE.FIGHT)
+                if (common.level.type === LEVELTYPE.FIGHT)
+                    util.subdry.sceneDirector(SCENE.HOME, SCENE.FIGHT)
+                else
+                    util.subdry.sceneDirector(SCENE.HOME, SCENE.GAME)       
             }
         })
         close()

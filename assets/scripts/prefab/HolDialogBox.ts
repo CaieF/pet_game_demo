@@ -3,7 +3,8 @@ import { ILevelDialog } from '../game/fight_entity/level';
 import { HolCharacterAvatar } from './HolCharacterAvatar';
 import { CharacterEnum } from '../game/fight/character/CharacterEnum';
 import { util } from '../util/util';
-import { SCENE } from '../common/enums';
+import { LEVELTYPE, SCENE } from '../common/enums';
+import { common } from '../common/common/common';
 const { ccclass, property } = _decorator;
 
 export type HolDialogBoxOption = {
@@ -28,7 +29,10 @@ export class HolDialogBox extends Component {
             await util.bundle.load('prefab/HolDialogBox', Prefab)
         )
         nodePool.put(this.node)
-        await util.subdry.sceneDirector(SCENE.HOME, SCENE.FIGHT)
+        if (common.level.type === LEVELTYPE.FIGHT)
+            await util.subdry.sceneDirector(SCENE.HOME, SCENE.FIGHT)
+        else 
+            await util.subdry.sceneDirector(SCENE.HOME, SCENE.GAME)
         // await this.intoFightMap()
     }
 

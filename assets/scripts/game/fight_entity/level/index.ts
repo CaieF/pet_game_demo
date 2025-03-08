@@ -3,6 +3,8 @@ import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import level1 from "./level1";
 import level2 from "./level2";
 import level3 from "./level3";
+import level4 from "./level4";
+import { LEVELTYPE } from "../../../common/enums";
 
 // 用户关卡进度
 export interface IUserLevelProcess {
@@ -13,10 +15,11 @@ export interface IUserLevelProcess {
 // 关卡类型
 export interface ILevel {
   id: number, // 关卡id
+  type: LEVELTYPE, // 关卡类型
   isUnlock: boolean, // 是否解锁
-  enemyQueue: CharacterStateCreate[][], // 敌人队列
+  enemyQueue?: CharacterStateCreate[][], // 敌人队列
   star: number, // 星级
-  map: string, // 地图
+  map?: string, // 地图
   icon: string, // 图标
   name: string, // 名称
   position: Vec3, // 位置
@@ -32,7 +35,8 @@ export interface ILevelDialog {
 const levels: Record<string, ILevel> = {
   level1,
   level2,
-  level3
+  level3,
+  level4
 }
 
 export default levels

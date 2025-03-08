@@ -1,4 +1,4 @@
-import { _decorator, Component, Layout, Node, UITransform } from 'cc';
+import { _decorator, Component, Layout, Node, random, randomRangeInt, UITransform } from 'cc';
 import { util } from '../../../util/util';
 import { CharacterEnum } from '../../../game/fight/character/CharacterEnum';
 import { getConfig } from '../../../common/config/config';
@@ -24,6 +24,17 @@ export class ShoppingUi extends Component {
 
     @property(Node) DrawResourceNode: Node = null
 
+    isShowFlash: boolean = false  // 是否显示闪烁特效
+    showFlashTime: number = 1.5   // 闪烁时间
+    showFlashInterval: number = 0.1 // 闪烁间隔
+    showFlashTimer: number = 0  // 闪烁计时器
+    showFlashIntervalTimer: number = 0  // 闪烁间隔计时器
+    lastLightNode: Node = null  // showFlash 最后一个闪烁节点
+
+    protected update(dt: number): void {
+        this.showFlash(dt)
+    }
+
     // 返回
     public async goBack() {
         const close = await util.message.load()
@@ -31,7 +42,7 @@ export class ShoppingUi extends Component {
         close()
     }
 
-    // 单抽
+    // 点击单抽
     public async singleDraw() {
         const config = getConfig()
         const result = await util.message.confirm({
@@ -46,15 +57,21 @@ export class ShoppingUi extends Component {
         const close = await util.message.load() 
         this.drawCharacters = []  // 先清空抽过的角色
         await this.draw()
-        this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).characters = this.drawCharacters
-        this.node.parent.getChildByName('CharacterQueue').active = true
-        this.node.parent.getChildByName('CharacterQueue').getChildByName('DrawCharacterQueue').getComponent(UITransform).height = 150
-        this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).renderDrawCharacter()
-        this.DrawResourceNode.getComponent(HolDrawResource).render()
+        this.showFlashInterval = 0.1 // 闪烁间隔
+        this.isShowFlash = true  // 开始闪烁特效
+        // 等待闪烁特效后再显示
+        setTimeout(() => {
+            this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).characters = this.drawCharacters
+            this.node.parent.getChildByName('CharacterQueue').active = true
+            this.node.parent.getChildByName('CharacterQueue').getChildByName('DrawCharacterQueue').getComponent(UITransform).height = 150
+            this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).renderDrawCharacter()
+            this.DrawResourceNode.getComponent(HolDrawResource).render()
+        }, this.showFlashTime * 1000)
+        
         close()
     }
 
-    // 十连抽
+    // 点击十连抽
     public async tenDraw() {
         const config = getConfig()
         const result = await util.message.confirm({
@@ -70,12 +87,38 @@ export class ShoppingUi extends Component {
         for (let i = 0; i < 10; i++) {
             await this.draw()
         }
-        this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).characters = this.drawCharacters
-        this.node.parent.getChildByName('CharacterQueue').active = true
-        this.node.parent.getChildByName('CharacterQueue').getChildByName('DrawCharacterQueue').getComponent(UITransform).height = 300
-        this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).renderDrawCharacter()
-        this.DrawResourceNode.getComponent(HolDrawResource).render()
+        this.showFlashInterval = 0.02 // 闪烁间隔
+        this.isShowFlash = true  // 开始闪烁特效
+        // 等待闪烁特效后再显示
+        setTimeout(() => {
+            this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).characters = this.drawCharacters
+            this.node.parent.getChildByName('CharacterQueue').active = true
+            this.node.parent.getChildByName('CharacterQueue').getChildByName('DrawCharacterQueue').getComponent(UITransform).height = 300
+            this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).renderDrawCharacter()
+            this.DrawResourceNode.getComponent(HolDrawResource).render()
+        }, this.showFlashTime * 1000)
         close()
+    }
+
+    // 抽奖之前随机闪烁特效
+    public async showFlash(deltaTime: number) {
+        if (!this.isShowFlash) return
+        if (this.showFlashTimer > this.showFlashTime) {
+            this.isShowFlash = false
+            this.showFlashTimer = 0
+            this.showFlashIntervalTimer = 0
+            if (this.lastLightNode) this.lastLightNode.active = false
+            this.lastLightNode = null
+            return
+        }
+        this.showFlashTimer += deltaTime
+        this.showFlashIntervalTimer += deltaTime
+        if (this.showFlashIntervalTimer > this.showFlashInterval) {
+            if (this.lastLightNode) this.lastLightNode.active = false
+            this.showFlashIntervalTimer = 0
+            this.lastLightNode = this.node.getChildByName('Lights').children[randomRangeInt(0,9)]
+            this.lastLightNode.active = true
+        }
     }
 
     // 抽奖
