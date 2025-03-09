@@ -45,6 +45,9 @@ export class GameCanvas extends Component {
             config.userData.levelProcess.currentLevel++
             if (config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`])
                 config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`].isUnlock = true
+            if (this.level.unlockPageId && config.userData.bookPageProgress[this.level.unlockPageId - 1]) {
+                config.userData.bookPageProgress[this.level.unlockPageId - 1].isUnlock = true
+            }
         }
         this.CommonUiNode.getChildByName('FightFailure').active = false
         this.CommonUiNode.getChildByName('FightSuccess').active = true

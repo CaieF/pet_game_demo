@@ -27,3 +27,11 @@ export enum LEVELTYPE {
   FIGHT = 'fight',  // 战斗关卡
   GAME = 'game',  // 小游戏关卡
 }
+
+// 科普知识类型类型
+export enum BOOKPAGETYPE {
+  SUBSTANCE = 'substance',  // 物质学
+  MECHANICS ='mechanics',  // 力学
+  HOT = 'hot',  // 热学
+  OPTICS = 'optics',  // 光学
+}

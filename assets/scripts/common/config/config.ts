@@ -1,6 +1,7 @@
 import { CharacterStateCreate } from "../../game/fight/character/CharacterState";
 import { EquipmentStateCreate } from "../../game/fight/equipment/EquipmentState";
 import { ItemStateCreate } from "../../game/fight/item/ItemState";
+import { bookPages, IBookPage } from "../../game/fight_entity/bookPages";
 import levels, { IUserLevelProcess } from "../../game/fight_entity/level";
 
 
@@ -47,6 +48,9 @@ class UserData extends Resource {
         levels: levels,
         currentLevel: 1,
     }
+
+    // 书页进度
+    public bookPageProgress: IBookPage[] = bookPages
 
     public characterQueue: CharacterStateCreate[][] = [
         [null, null, null],

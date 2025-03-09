@@ -26,6 +26,7 @@ const level: ILevel = {
     name,
     position,
     dialogs,
+    unlockPageId: 3,
 }
 
 export default level

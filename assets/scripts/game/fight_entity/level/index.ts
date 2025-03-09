@@ -24,6 +24,7 @@ export interface ILevel {
   name: string, // 名称
   position: Vec3, // 位置
   dialogs?: ILevelDialog[] // 对话
+  unlockPageId?: number // 解锁页面id
 } 
 
 // 关卡对话类型
