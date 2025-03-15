@@ -43,19 +43,16 @@ class Character extends CharacterMetaState {
     `
 
     PassiveIntroduceOne: string = `
-    
     额外获得 20% 生命值
     额外获得 20% 防御值
     获得 50% 免伤值
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
-    
     额外获得 30% 生命值
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     对敌人造成120%攻击力的伤害
     并且眩晕敌人1回合
     `.replace(/ /ig , "")

@@ -85,6 +85,42 @@ export class HeroCharacterProperty extends Component {
         const res = await util.message.introduce({message})
     }
 
+    // 显示攻击介绍
+    async showAttackIntroduce() {
+        let message = ``
+        message += `普通攻击介绍：\n`
+        message += `${this.$state.meta.AttackIntroduce}`
+        const res = await util.message.introduce({message})
+    }
+
+    // 显示技能介绍
+    async showSkillIntroduce() {
+        let message = ``
+        message += `技能介绍：\n`
+        message += `${this.$state.meta.SkillIntroduce}`
+        const res = await util.message.introduce({message})
+    }
+
+    async showPassiveIntroduce() {
+        let message = ``
+        if (this.$state.meta.CharacterQuality < 3) {
+            message += `一星增益：\n`
+        } else {
+            message += `二星增益：\n`
+        }
+        message += `${this.$state.meta.PassiveIntroduceOne}\n`
+        if (this.$state.meta.CharacterQuality === 2) {
+            message += `二星增益：\n`
+        } else if (this.$state.meta.CharacterQuality === 3) {
+            message += `三星增益：\n`
+        } else if (this.$state.meta.CharacterQuality >= 4) {
+            message += `四星增益：\n`
+        }
+        if (this.$state.meta.CharacterQuality > 1)
+            message += `${this.$state.meta.PassiveIntroduceTwo}\n`
+        const res = await util.message.introduce({message})
+    }
+
     // 英雄升级
     async characterLevelUp() {
         const config = getConfig()

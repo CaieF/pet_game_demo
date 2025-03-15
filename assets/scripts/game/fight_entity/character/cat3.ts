@@ -39,24 +39,20 @@ class Character extends CharacterMetaState {
     Energy: number = 50
 
     AttackIntroduce: string = `
-
     攻击目标以及目标身后的敌人造成 100% 伤害
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    
     额外获得 20% 生命值
     额外获得 20% 攻击力
     额外获得 20% 暴击率
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
-    
-    恢复生命值由 20% 提升到 50%
+    大招恢复生命值由 20% 提升到 50%
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     治疗友方所有队友 20% 生命值
     `.replace(/ /ig , "")
 

@@ -3,6 +3,7 @@ import { ILevel, ILevelDialog } from ".";
 import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import { util } from "../../../util/util";
 import { LEVELTYPE } from "../../../common/enums";
+import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
 
 // 关卡敌人
 const enemyQueue: CharacterStateCreate[][] = [
@@ -28,6 +29,13 @@ const dialogs: ILevelDialog[] = [
    { character: {id: 'catGril', lv: 1, star: 1, equipment: [] }, dialog: '哪来的哥布林，去si吧 ' }
 ]
 
+const levelDetail: HolLevelDetailOption = {
+  title: name,
+  introduce: '击败所有的敌人获得胜利',
+  enemyQueue: enemyQueue,
+  position
+}
+
 const level: ILevel = {
   id,
   type: LEVELTYPE.FIGHT,
@@ -38,7 +46,8 @@ const level: ILevel = {
   icon,
   name,
   position,
-  dialogs
+  dialogs,
+  levelDetail
 }
 
 

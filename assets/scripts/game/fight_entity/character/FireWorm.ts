@@ -49,7 +49,6 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    
     额外获得 25% 生命值
     额外获得 25% 攻击力
     额外获得 25% 防御值

@@ -18,11 +18,12 @@ export class HolCharacterAvatar extends Component {
 
     @property(Node) LvNode: Node;  // 等级节点
     
-    async setCharacter(create: CharacterStateCreate) {
+    async setCharacter(create: CharacterStateCreate, isRight: boolean = false) {
         this.character = create;
         const meta = CharacterEnum[create.id];
         this.AvatarNode.getComponent(Sprite).spriteFrame = 
             await util.bundle.load(meta.AvatarPath , SpriteFrame)
+        if (isRight) this.AvatarNode.setScale(this.AvatarNode.scale.x * -1, this.AvatarNode.scale.y);
         if (meta.CharacterQuality < 5) this.LegendBorderNode.active = false
         this.BorderNode.getComponent(Sprite).spriteFrame = 
             await util.bundle.load(`image/quality_border/${meta.CharacterQuality}/spriteFrame` , SpriteFrame)

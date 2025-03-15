@@ -39,12 +39,10 @@ class Character extends CharacterMetaState {
     Energy: number = 10
 
     AttackIntroduce: string = `
-    
     攻击目标造成 100% 攻击力的伤害
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    
     额外获得 20% 速度
     额外获得 20% 攻击力
     额外获得 20% 护甲穿透
@@ -54,7 +52,6 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     造成150%攻击力的伤害
     `.replace(/ /ig , "")
 

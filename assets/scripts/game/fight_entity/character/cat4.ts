@@ -53,7 +53,6 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     攻击一横排敌人，造成100% 伤害
     `.replace(/ /ig , "")
 

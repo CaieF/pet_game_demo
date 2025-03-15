@@ -5,6 +5,7 @@ import level2 from "./level2";
 import level3 from "./level3";
 import level4 from "./level4";
 import { LEVELTYPE } from "../../../common/enums";
+import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
 
 // 用户关卡进度
 export interface IUserLevelProcess {
@@ -25,6 +26,7 @@ export interface ILevel {
   position: Vec3, // 位置
   dialogs?: ILevelDialog[] // 对话
   unlockPageId?: number // 解锁页面id
+  levelDetail: HolLevelDetailOption // 关卡详情
 } 
 
 // 关卡对话类型

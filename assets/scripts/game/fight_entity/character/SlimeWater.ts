@@ -39,20 +39,17 @@ class Character extends CharacterMetaState {
     Energy: number = 10
 
     AttackIntroduce: string = `
-    
     原地跳跃一下，为自己添加一回合100%减伤的buff
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    
-    绿色的史莱姆，没有被动技能
+    蓝色的史莱姆，没有被动技能
     `.replace(/ /ig , "")
 
     PassiveIntroduceTwo: string = `
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     造成目标最大生命值 * 500%的伤害
     `.replace(/ /ig , "")
 

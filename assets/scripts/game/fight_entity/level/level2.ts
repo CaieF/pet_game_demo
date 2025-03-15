@@ -1,6 +1,7 @@
 import { Vec3 } from "cc"
 import { ILevel, ILevelDialog } from "."
 import { LEVELTYPE } from "../../../common/enums"
+import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail"
 
 const id: number = 2
 
@@ -17,6 +18,13 @@ const dialogs: ILevelDialog[] = [
    { character: {id: 'cat4', lv: 1, star: 1, equipment: [] }, dialog: '这有跟木棍，不如我们用杠杆原理想办法带你过去吧 ' },
 ]
 
+const levelDetail: HolLevelDetailOption = {
+  title: name,
+  introduce: '通过杠杆帮助小猫过桥',
+  position,
+  icon,
+}
+
 const level: ILevel = {
     id,
     type: LEVELTYPE.GAME,
@@ -27,6 +35,7 @@ const level: ILevel = {
     position,
     dialogs,
     unlockPageId: 3,
+    levelDetail
 }
 
 export default level

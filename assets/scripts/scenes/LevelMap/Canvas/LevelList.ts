@@ -1,4 +1,4 @@
-import { _decorator, Component, NodeEventType, Prefab } from 'cc';
+import { _decorator, Component, NodeEventType, Prefab, UITransform } from 'cc';
 import { ILevel, ILevelDialog } from '../../../game/fight_entity/level';
 import { util } from '../../../util/util';
 import { HolLevel } from '../../../prefab/HolLevel';
@@ -46,6 +46,11 @@ export class LevelList extends Component {
     // 点击关卡
     public async clickLevel(level: ILevel) {
         common.level = level
+        // const close = await util.message.load()
+        const result = await util.message.levelDetail(level.levelDetail)
+        if (result === false) return
+        // levelDetailNode.setPosition(level.position)
+        // close()
         if (level.dialogs) {
             this.showDialog(level.dialogs)
         } else {

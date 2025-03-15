@@ -41,12 +41,10 @@ class Character extends CharacterMetaState {
     Critical: number = 20
 
     AttackIntroduce: string = `
-    
     优先攻击最后排的敌人造成 100% 攻击力的伤害
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    
     额外获得 25% 速度
     额外获得 25% 攻击力
     额外获得 25% 护甲穿透
@@ -58,7 +56,6 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     优先攻击最后排的敌人造成 200% 攻击力的伤害
     `.replace(/ /ig , "")
 

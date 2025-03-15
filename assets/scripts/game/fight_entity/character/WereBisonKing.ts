@@ -61,7 +61,6 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     无视敌人防御以及免伤值
     对敌人造成 300 % 的伤害
     `.replace(/ /ig , "")

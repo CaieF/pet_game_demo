@@ -12,6 +12,7 @@ import { formateNumber } from "./subdry/formateNumber"
 import { sceneDirector } from "./subdry/sceneDirector"
 import { levelUpNeedGold, levelStarNeedSoule, getTotalGoldCost, getTotalSoulCost, getDecomposeGoldSoul, levelUpNeedGoldByNum, getMaxLevelByGold, } from "./subdry/resourceCost"
 import { dialogBox, preloadDialogBox } from "./message/dialogBox"
+import { levelDetail, preloadLevelDetail } from "./message/levelDetail"
 
 export const util = {
     // 输出对象
@@ -40,6 +41,8 @@ export const util = {
         preloadIntroduce, // 预加载加载框
         dialogBox, // 对话弹框
         preloadDialogBox, // 预加载对话弹框
+        preloadLevelDetail, // 预加载关卡详情弹框
+        levelDetail, // 关卡详情弹框
     },
     resourceCost: {
         levelUpNeedGold, // 升级需要的金币

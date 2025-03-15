@@ -2,6 +2,7 @@ import { Vec3 } from "cc";
 import { ILevel } from ".";
 import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import { LEVELTYPE } from "../../../common/enums";
+import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
 
 // 关卡敌人
 const enemyQueue: CharacterStateCreate[][] = [
@@ -22,6 +23,13 @@ const position: Vec3 = new Vec3(82, -58, 0)
 
 // {x: number, y: number} = { x: -115, y: 66 }
 
+const levelDetail: HolLevelDetailOption = {
+  title: name,
+  introduce: '击败所有的敌人获得胜利',
+  enemyQueue: enemyQueue,
+  position
+}
+
 const level: ILevel = {
   id,
   type: LEVELTYPE.FIGHT,
@@ -31,7 +39,8 @@ const level: ILevel = {
   map,
   icon,
   name,
-  position
+  position,
+  levelDetail,
 }
 
 

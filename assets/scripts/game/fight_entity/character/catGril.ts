@@ -42,14 +42,12 @@ class Character extends CharacterMetaState {
     Energy: number = 80
 
     AttackIntroduce: string = `
-
     攻击目标造成 100% 伤害 
     并为自己添加一回合免伤buff
     并增加60点能量 
     `.replace(/ /ig , "")
 
     PassiveIntroduceOne: string = `
-    
     额外获得 20% 穿透值
     额外获得 20% 攻击力
     额外获得 20% 暴击率
@@ -60,8 +58,8 @@ class Character extends CharacterMetaState {
     `.replace(/ /ig , "")
 
     SkillIntroduce: string = `
-    
     召唤水龙卷攻击所有敌人
+    造成150% 的伤害
     `.replace(/ /ig , "")
 
     onCreateState(self: CharacterState): void {

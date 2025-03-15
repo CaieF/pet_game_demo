@@ -27,9 +27,11 @@ export class PreloadCanvas extends Component {
         holPreLoad.setProcess(60);
         await util.bundle.loadDir('image/number', SpriteFrame); // 加载数字图片
         holPreLoad.setProcess(70);
-        util.message.preloadIntroduce(); // 预加载介绍
+        await util.message.preloadIntroduce(); // 预加载介绍
         holPreLoad.setProcess(80);
-
+        await util.message.preloadLevelDetail(); // 预加载关卡详情
+        holPreLoad.setProcess(90);
+        
         holPreLoad.setProcess(100);
 
         // 监听进度条完成函数
