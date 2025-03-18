@@ -1,6 +1,6 @@
 import { Vec3 } from "cc"
 import { ILevel, ILevelDialog } from "."
-import { LEVELTYPE } from "../../../common/enums"
+import { GAMETYPE, LEVELTYPE } from "../../../common/enums"
 import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail"
 
 const id: number = 2
@@ -35,7 +35,8 @@ const level: ILevel = {
     position,
     dialogs,
     unlockPageId: 3,
-    levelDetail
+    levelDetail,
+    gameType: GAMETYPE.LEVER
 }
 
 export default level

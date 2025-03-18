@@ -45,7 +45,18 @@ const page3: IBookPage = {
     type: BOOKPAGETYPE.MECHANICS,
     isLeft: true,
     isUnlock: false,
-    isNearPage: false,
+    isNearPage: true,
 }
 
-export const bookPages: IBookPage[] = [page1, page2, page3]
+const page4: IBookPage = {
+    title: '流体力学',
+    id: 4,
+    icon: 'image/map_icon/map_icon_river/spriteFrame',
+    content: '古代水利工程中对水流运动规律的理解和应用，如都江堰工程通过分流和引导水流，展示了古人对流体动力学的深刻认识。',
+    type: BOOKPAGETYPE.MECHANICS,
+    isLeft: false,
+    isUnlock: false,
+    isNearPage: true,
+}
+
+export const bookPages: IBookPage[] = [page1, page2, page3, page4]

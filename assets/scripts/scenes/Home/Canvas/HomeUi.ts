@@ -33,7 +33,7 @@ export class HomeUi extends Component {
         const close = await util.message.load();
         this.node.parent.getChildByName("HolBook").active = true;
         await this.node.parent.getChildByName("HolBook").getChildByName("Ui").getComponent(BookUi).goFirst();
-        close();
+        close()
     }
     
 }

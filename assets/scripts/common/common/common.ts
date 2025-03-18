@@ -8,7 +8,7 @@ class Common {
     // 右侧队伍
     rightCharacter: Map<{row: number, col: number}, CharacterStateCreate> = new Map();
     // 选择关卡
-    level: ILevel = levels['level1']
+    level: ILevel = null
     // 关卡倍速
     timeScale: number = 1
 }

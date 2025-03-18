@@ -15,9 +15,13 @@ export class GameCanvas extends Component {
 
     protected start(): void {
         this.level = common.level
+        
         if (!this.level) {
             util.subdry.sceneDirector(SCENE.GAME, SCENE.HOME)
+            return
         }
+
+        this.node.getChildByName(this.level.gameType).active = true
     }
 
     // 回到主页

@@ -28,6 +28,11 @@ export enum LEVELTYPE {
   GAME = 'game',  // 小游戏关卡
 }
 
+export enum GAMETYPE {
+  LEVER = 'Lever',  // 杠杆关卡
+  RIVER = 'River',  // 河流关卡
+}
+
 // 科普知识类型类型
 export enum BOOKPAGETYPE {
   SUBSTANCE = 'substance',  // 物质学

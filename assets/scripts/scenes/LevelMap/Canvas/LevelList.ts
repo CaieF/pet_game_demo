@@ -48,7 +48,10 @@ export class LevelList extends Component {
         common.level = level
         // const close = await util.message.load()
         const result = await util.message.levelDetail(level.levelDetail)
-        if (result === false) return
+        if (result === false) {
+            common.level = null
+            return
+        } 
         // levelDetailNode.setPosition(level.position)
         // close()
         if (level.dialogs) {
