@@ -1,7 +1,7 @@
 import { _decorator, Component, Layout, Node, random, randomRangeInt, UITransform } from 'cc';
 import { util } from '../../../util/util';
 import { CharacterEnum } from '../../../game/fight/character/CharacterEnum';
-import { getConfig } from '../../../common/config/config';
+import { getConfig, stockConfig } from '../../../common/config/config';
 import { log } from '../../../util/out/log';
 import { DrawCharacterQueue } from './DrawCharacterQueue';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
@@ -67,7 +67,7 @@ export class ShoppingUi extends Component {
             this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).renderDrawCharacter()
             this.DrawResourceNode.getComponent(HolDrawResource).render()
         }, this.showFlashTime * 1000)
-        
+        stockConfig()
         close()
     }
 
@@ -97,6 +97,7 @@ export class ShoppingUi extends Component {
             this.node.parent.getChildByName('CharacterQueue').getComponent(DrawCharacterQueue).renderDrawCharacter()
             this.DrawResourceNode.getComponent(HolDrawResource).render()
         }, this.showFlashTime * 1000)
+        stockConfig()
         close()
     }
 

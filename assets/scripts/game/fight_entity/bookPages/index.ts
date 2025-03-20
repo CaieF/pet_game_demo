@@ -59,4 +59,26 @@ const page4: IBookPage = {
     isNearPage: true,
 }
 
-export const bookPages: IBookPage[] = [page1, page2, page3, page4]
+const page5: IBookPage = {
+    title: '热传递',
+    id: 5,
+    icon: 'image/game_resource/icon_fire/spriteFrame',
+    content: '古人通过冶炼和制陶积累了热传递的经验，如《考工记》中记录了加热和冷却技术。《周礼》记载了古代的降温术和高温术',
+    type: BOOKPAGETYPE.HOT,
+    isLeft: true,
+    isUnlock: false,
+    isNearPage: true,
+}
+
+const page6: IBookPage = {
+    title: '热胀冷缩',
+    id: 6,
+    icon: 'image/game_resource/icon_fire/spriteFrame',
+    content: '汉代已观察到热胀冷缩现象，并应用于工程。《淮南万毕术》记述了热胀冷缩现象的一个典型实验',
+    type: BOOKPAGETYPE.HOT,
+    isLeft: false,
+    isUnlock: false,
+    isNearPage: true,
+}
+
+export const bookPages: IBookPage[] = [page1, page2, page3, page4, page5, page6]

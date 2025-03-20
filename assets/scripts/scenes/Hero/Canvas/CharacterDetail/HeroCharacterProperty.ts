@@ -1,5 +1,5 @@
 import { _decorator, AudioSource, Component, find, Label, Node, sp } from 'cc';
-import { getConfig } from 'db://assets/scripts/common/config/config';
+import { getConfig, stockConfig } from 'db://assets/scripts/common/config/config';
 import { CharacterEnum } from 'db://assets/scripts/game/fight/character/CharacterEnum';
 import { CharacterState, CharacterStateCreate } from 'db://assets/scripts/game/fight/character/CharacterState';
 import { HolUserResource } from 'db://assets/scripts/prefab/HolUserResource';
@@ -220,6 +220,7 @@ export class HeroCharacterProperty extends Component {
         const characterQueue = []
         config.userData.characterQueue.forEach(cq => cq.forEach(c => { if(c) characterQueue.push(c) }))
         await this.HeroAllHeroNode.getComponent(HeroAllHeros).render([].concat(characterQueue, config.userData.characters))
+        stockConfig()
         close()
     }
 

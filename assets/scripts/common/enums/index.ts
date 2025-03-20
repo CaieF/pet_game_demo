@@ -31,6 +31,7 @@ export enum LEVELTYPE {
 export enum GAMETYPE {
   LEVER = 'Lever',  // 杠杆关卡
   RIVER = 'River',  // 河流关卡
+  FIREGAME = 'FireGame',  // 火焰关卡
 }
 
 // 科普知识类型类型

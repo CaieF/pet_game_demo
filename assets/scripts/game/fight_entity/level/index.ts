@@ -6,6 +6,7 @@ import level3 from "./level3";
 import level4 from "./level4";
 import level5 from "./level5";
 import level6 from "./level6";
+import level7 from "./level7";
 import { GAMETYPE, LEVELTYPE } from "../../../common/enums";
 import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
 
@@ -27,7 +28,7 @@ export interface ILevel {
   name: string, // 名称
   position: Vec3, // 位置
   dialogs?: ILevelDialog[] // 对话
-  unlockPageId?: number // 解锁页面id
+  unlockPageId?: number[] // 解锁页面id
   levelDetail: HolLevelDetailOption // 关卡详情
   gameType?: GAMETYPE // 游戏类型
 } 
@@ -44,7 +45,8 @@ const levels: Record<string, ILevel> = {
   level3,
   level4,
   level5,
-  level6
+  level6,
+  level7
 }
 
 export default levels

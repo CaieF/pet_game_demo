@@ -36,7 +36,7 @@ const level: ILevel = {
     name,
     position,
     dialogs,
-    unlockPageId: 4,
+    unlockPageId: [4],
     levelDetail,
     gameType: GAMETYPE.RIVER
 }

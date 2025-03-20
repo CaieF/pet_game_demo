@@ -5,7 +5,7 @@ import { util } from '../../../util/util';
 import { common } from '../../../common/common/common';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { RoundState } from '../../../game/fight/RoundState';
-import { getConfig } from '../../../common/config/config';
+import { getConfig, stockConfig } from '../../../common/config/config';
 import levels, { ILevel } from '../../../game/fight_entity/level';
 import { log } from '../../../util/out/log';
 import { FightTips } from '../../../common/Tips';
@@ -211,9 +211,11 @@ export class FightMap extends Component {
             if (config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`])
                 config.userData.levelProcess.levels[`level${config.userData.levelProcess.currentLevel}`].isUnlock = true
         }
+        
         this.node.parent.getChildByName("FightUi").getChildByName("GoBack").active = true
         this.node.parent.getChildByName("FightFailure").active = false
         this.node.parent.getChildByName("FightSuccess").active = true
+        stockConfig();
     }
 
     // 战斗失败结算

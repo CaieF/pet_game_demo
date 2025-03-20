@@ -2,7 +2,7 @@ import { _decorator, Component, find, Label, Node, Sprite, SpriteFrame } from 'c
 import { IGOOD, resource_icon } from '../game/fight_entity/goods';
 import { util } from '../util/util';
 import { RESOURCE } from '../common/enums';
-import { getConfig } from '../common/config/config';
+import { getConfig, stockConfig } from '../common/config/config';
 import { HolUserResource } from './HolUserResource';
 const { ccclass, property } = _decorator;
 
@@ -57,6 +57,7 @@ export class HolGood extends Component {
         }
         find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染 
         // 购买成功
+        stockConfig()
         return await util.message.prompt({message: '购买成功'})
     }
 }

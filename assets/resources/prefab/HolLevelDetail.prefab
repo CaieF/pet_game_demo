@@ -461,8 +461,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 117.65,
-      "y": 200.534,
+      "x": 16.031,
+      "y": 226.927,
       "z": 0
     },
     "_lrot": {
@@ -502,13 +502,13 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 189.47357177734375,
-      "height": 50.4
+      "width": 220,
+      "height": 130.39999999999998
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0,
+      "y": 1
     },
     "_id": ""
   },
@@ -538,14 +538,14 @@
       "b": 255,
       "a": 255
     },
-    "_string": "击败所有敌人获得胜利",
-    "_horizontalAlign": 1,
+    "_string": "击败所有敌人获得胜利哈哈哈 \n急急急",
+    "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 30,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 0,
+    "_overflow": 3,
     "_enableWrapText": true,
     "_font": {
       "__uuid__": "69575ea0-7637-4d18-b523-d21ba978ca89",
@@ -1964,7 +1964,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 121.032,
-      "y": 87.234,
+      "y": 75.667,
       "z": 0
     },
     "_lrot": {
@@ -2004,8 +2004,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
-      "height": 150
+      "width": 120,
+      "height": 120
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

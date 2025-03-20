@@ -42,10 +42,12 @@ export class CharacterTeamQueue extends Component {
                     await node.getComponent(HolCharacterAvatar).setCharacter(character);
                     const characterCoordinate = this.node.getChildByName('CharacterItem' + (row + 1) + (col + 1));
                     characterCoordinate.addChild(node);
+                    node.setPosition(0, 0)
                     this.characterAvatarNode.push(node);
                 }
             }
         }
+        stockConfig()
         close()
     }
 
@@ -80,7 +82,7 @@ export class CharacterTeamQueue extends Component {
         }
         if (character || currentCharacterAvatar) {
             // 保存
-            // stockConfig()
+            stockConfig()
             // 重新渲染
             this.renderAllCharacter()
             // 背包重新渲染

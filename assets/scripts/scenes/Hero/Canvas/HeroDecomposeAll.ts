@@ -1,5 +1,5 @@
 import { _decorator, Component, Node, Event, Toggle, toDegree, Label, find } from 'cc';
-import { getConfig } from '../../../common/config/config';
+import { getConfig, stockConfig } from '../../../common/config/config';
 import { util } from '../../../util/util';
 import { HeroAllHeros } from './HeroAllHeros';
 import { log } from '../../../util/out/log';
@@ -50,6 +50,7 @@ export class HeroDecomposeAll extends Component {
         }
         await this.goBack()
         find("Canvas/HolUserResource").getComponent(HolUserResource).render()
+        stockConfig()
         close() 
     }
 

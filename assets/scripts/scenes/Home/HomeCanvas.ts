@@ -15,6 +15,9 @@ export class HomeCanvas extends Component {
         await this.node.getComponent(CommonCanvas).initMusic(MUSICFOLDER.HOME, getConfig().volumeDetail.home)
         if ((sceneCommon.lastScene === SCENE.FIGHT || sceneCommon.lastScene === SCENE.GAME) && sceneCommon.currentScene === SCENE.HOME) 
             this.node.getChildByName('HolLevelMap').active = true
+
+        // const config = getConfig();
+        // config.userData.getAllLevel(6);
         close();
     }
 }

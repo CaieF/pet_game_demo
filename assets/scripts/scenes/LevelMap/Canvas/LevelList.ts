@@ -20,6 +20,8 @@ export class LevelList extends Component {
     public async renderAllLevels() {
         const config = getConfig()
         const levels = config.userData.levelProcess.levels
+        log('currentLevel', config.userData.levelProcess.currentLevel)
+        log('levels', levels)
         // 加载动画
         const close = await util.message.load()
         const nodePool = util.resource.getNodePool(

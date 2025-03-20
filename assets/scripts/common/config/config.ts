@@ -63,157 +63,58 @@ class UserData extends Resource {
     constructor(or?: Partial<UserData>) {
         super();
         // 测试角色
-        this.addNewCharacter({
-            id: "SlimeOrdinary" ,
-            lv: 1 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "SlimeGold" ,
-            lv: 1 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "SlimeTree" ,
-            lv: 5 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "SlimeWater" ,
-            lv: 5 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "SlimeFire" ,
-            lv: 10 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "SlimeStone" ,
-            lv: 100 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "Orc" ,
-            lv: 100 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "OrcArmored" ,
-            lv: 1 ,
-            star: 2 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "OrcElite" ,
-            lv: 10 ,
-            star: 2 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "OrcRider" ,
-            lv: 100 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "cat3" ,
-            lv: 1 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "cat1" ,
-            lv: 10 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "cat2" ,
-            lv: 99 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "cat4" ,
-            lv: 100 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "catGril" ,
-            lv: 100 ,
-            star: 3 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "WereWolf" ,
-            lv: 99 ,
-            star: 1 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "WereBear" ,
-            lv: 100 ,
-            star: 4 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "WereBison" ,
-            lv: 100 ,
-            star: 4 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "DinoRex" ,
-            lv: 100 ,
-            star: 4 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "FireWorm" ,
-            lv: 100 ,
-            star: 4 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "WereBisonKing" ,
-            lv: 100 ,
-            star: 5 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "SonGoku" ,
-            lv: 100 ,
-            star: 5 ,
-            equipment: []
-        })
-        this.addNewCharacter({
-            id: "Panda" ,
-            lv: 100 ,
-            star: 5 ,
-            equipment: []
-        })
-        
-        
         if (!or) { return }
+        
+
         this.lv = or.lv || 1
         this.exp = or.exp || 1
         this.gold = or.gold || 1000
         this.diamond = or.diamond || 100
+        this.draw = or.draw || 20
         this.soul = or.soul || 1000
         this.hasCollectCharacterId = or.hasCollectCharacterId || []
+        this.levelProcess = or.levelProcess || this.initLevelProcess()
+        this.bookPageProgress = or.bookPageProgress || bookPages
         // 原有角色
         ;(or.characters || []).forEach(c => { this.addNewCharacter(c) })
         // 原有出战角色
-        ;or.characterQueue.forEach((cq , i) => cq.forEach((c , j) => this.characterQueue[i][j] = {...c , uuid: ++globalId}))
+        ;or.characterQueue.forEach((cq , i) => cq.forEach((c , j) => {
+            if (!c) return;
+            this.characterQueue[i][j] = {...c , uuid: ++globalId}
+        }))
+        // 没有任何角色
+        if (this.characters.length === 0 && this.isCharacterQueueEmpty()) {
+            this.addNewCharacter({
+                id: "cat3" ,
+                lv: 1 ,
+                star: 1 ,
+                equipment: []
+            })
+            this.addNewCharacter({
+                id: "cat1" ,
+                lv: 10 ,
+                star: 1 ,
+                equipment: []
+            })
+            this.addNewCharacter({
+                id: "cat2" ,
+                lv: 99 ,
+                star: 1 ,
+                equipment: []
+            })
+            this.addNewCharacter({
+                id: "cat4" ,
+                lv: 100 ,
+                star: 1 ,
+                equipment: []
+            })
+            this.addNewCharacter({
+                id: "catGril" ,
+                lv: 100 ,
+                star: 3 ,
+                equipment: []
+            })
+        }
     }
 
     // 添加新角色
@@ -248,10 +149,38 @@ class UserData extends Resource {
 
     // 初始化关卡进度
     public initLevelProcess() {
-        this.levelProcess = {
+        const levelProcess: IUserLevelProcess = {
             levels: levels,
             currentLevel: 1,
         }
+        return levelProcess;
+    }
+
+    // 一键通关所有关卡 
+    public getAllLevel(levelnum: number) {
+        for (let i = 1; i <= levelnum; i++) {
+            this.levelProcess.levels[`level${i}`].isUnlock = true;
+            this.levelProcess.levels[`level${i}`].star = 3;
+
+            if (this.levelProcess.levels[`level${i}`].unlockPageId && this.levelProcess.levels[`level${i}`].unlockPageId.length > 0) {
+                for (let j = 0; j < this.levelProcess.levels[`level${i}`].unlockPageId.length; j++) {
+                    config.userData.bookPageProgress[this.levelProcess.levels[`level${i}`].unlockPageId[j] - 1].isUnlock = true;
+                }
+            }
+        }
+        this.levelProcess.currentLevel = levelnum + 1;
+    }
+
+    // 判断characterQueue是否全空
+    public isCharacterQueueEmpty() {
+        for (let i = 0; i < this.characterQueue.length; i++) {
+            for (let j = 0; j < this.characterQueue[i].length; j++) {
+                if (this.characterQueue[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 
