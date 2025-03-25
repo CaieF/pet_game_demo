@@ -10,7 +10,8 @@ export class BookUi extends Component {
     // 返回
     public async goBack() {
         const close = await util.message.load()
-        this.node.parent.active = false;
+        const nodePool = util.resource.getNodePool(await util.bundle.load("prefab/HolBook", Prefab))
+        nodePool.put(this.node.parent);
         close()
     }
 
@@ -18,7 +19,7 @@ export class BookUi extends Component {
     public async goFirst() {
         if (this.BookNode.getChildByName("BookList").active) return;
         const close = await util.message.load()
-        const nodePool = getNodePool(await load("prefab/HolBookPage", Prefab))
+        const nodePool = getNodePool(await util.bundle.load("prefab/HolBookPage", Prefab))
         let i = this.BookNode.children.length - 1;
         while (i > 0) {
             nodePool.put(this.BookNode.children[i])

@@ -1,8 +1,7 @@
-import { _decorator, Component, Layout, Node, random, randomRangeInt, UITransform } from 'cc';
+import { _decorator, Component, Node, Prefab, randomRangeInt, UITransform } from 'cc';
 import { util } from '../../../util/util';
 import { CharacterEnum } from '../../../game/fight/character/CharacterEnum';
 import { getConfig, stockConfig } from '../../../common/config/config';
-import { log } from '../../../util/out/log';
 import { DrawCharacterQueue } from './DrawCharacterQueue';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { HolDrawResource } from '../../../prefab/HolDrawResource';
@@ -38,7 +37,8 @@ export class ShoppingUi extends Component {
     // 返回
     public async goBack() {
         const close = await util.message.load()
-        this.node.parent.active = false;
+        const nodePool = util.resource.getNodePool(await util.bundle.load("prefab/HolStarMap", Prefab))
+        nodePool.put(this.node.parent);
         close()
     }
 
@@ -153,9 +153,7 @@ export class ShoppingUi extends Component {
                 const selectedCharacter = filteredCharacters[randomIndex];
                 this.drawCharacters.push({ id: selectedCharacter[0], lv: 1, star: 1, equipment: [] }); // 抽中角色加入队列中                
                 config.userData.addNewCharacter({ id: selectedCharacter[0], lv: 1, star: 1, equipment: [] }); // 添加角色到用户数据
-            } else {
-                log('没有该品质的角色');
-            }
+            } 
         }
     }
 }

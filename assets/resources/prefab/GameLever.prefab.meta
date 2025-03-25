@@ -1,0 +1,13 @@
+{
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "78ca46b2-355c-4bf5-8c01-328c947c2814",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "GameLever"
+  }
+}

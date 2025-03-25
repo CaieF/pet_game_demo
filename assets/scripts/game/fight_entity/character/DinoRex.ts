@@ -1,15 +1,12 @@
-import { math } from "cc";
 import { GetCharacterCoordinatePosition, HolCharacter } from "../../../prefab/HolCharacter";
 import { FightMap } from "../../../scenes/Fight/Canvas/FightMap";
 import { util } from "../../../util/util";
 import { ActionState } from "../../fight/ActionState";
-import { BasicState } from "../../fight/BasicState";
 import { BuffState } from "../../fight/buff/BuffState";
 import { RegisterCharacter } from "../../fight/character/CharacterEnum";
 import { CharacterMetaState } from "../../fight/character/CharacterMetaState";
 import { CharacterState } from "../../fight/character/CharacterState";
 import { EffectState } from "../../fight/effect/EffectState";
-import { log } from "../../../util/out/log";
 
 @RegisterCharacter({id: "DinoRex"})
 class Character extends CharacterMetaState {

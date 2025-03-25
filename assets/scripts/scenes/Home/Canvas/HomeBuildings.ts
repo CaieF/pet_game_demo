@@ -1,8 +1,6 @@
 import { _decorator, Component, director, EventTouch, math, Node, screen } from 'cc';
 import { getConfig } from '../../../common/config/config';
-import { log } from '../../../util/out/log';
 import { util } from '../../../util/util';
-import { SCENE } from '../../../common/enums';
 const { ccclass, property } = _decorator;
 
 @ccclass('HomeBuildings')
@@ -43,19 +41,18 @@ export class HomeBuildings extends Component {
     // 打开关卡选择场景
     public async OpenLevelMap() {
         const close = await util.message.load();
-        // director.preloadScene("Fight", ()=> {
-        //     close();
-        // })
-        // director.loadScene("Fight");
-        this.node.parent.getChildByName("HolLevelMap").active = true;
+        await util.message.levelMap()
         close();
     }
 
     // 打开商店场景
     public async OpenShopMap() {
-        await util.subdry.sceneDirector(SCENE.HOME, SCENE.SHOP)
-    }
+        //await util.subdry.sceneDirector(SCENE.HOME, SCENE.SHOP)
+        const close = await util.message.load();
+        await util.message.shop()
+        close();
     
+    }
 }
 
 

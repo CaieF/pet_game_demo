@@ -2,26 +2,19 @@ import { _decorator, Component, NodeEventType, Prefab, UITransform } from 'cc';
 import { ILevel, ILevelDialog } from '../../../game/fight_entity/level';
 import { util } from '../../../util/util';
 import { HolLevel } from '../../../prefab/HolLevel';
-import { common, sceneCommon } from '../../../common/common/common';
+import { common } from '../../../common/common/common';
 import { LEVELTYPE, SCENE } from '../../../common/enums';
 import { getConfig } from '../../../common/config/config';
-import { log } from '../../../util/out/log';
 const { ccclass, property } = _decorator;
 
 @ccclass('LevelList')
 export class LevelList extends Component {
 
-
-    protected async start() {
-        await this.renderAllLevels()
-    }
     
     // 渲染所有的关卡
     public async renderAllLevels() {
         const config = getConfig()
         const levels = config.userData.levelProcess.levels
-        log('currentLevel', config.userData.levelProcess.currentLevel)
-        log('levels', levels)
         // 加载动画
         const close = await util.message.load()
         const nodePool = util.resource.getNodePool(

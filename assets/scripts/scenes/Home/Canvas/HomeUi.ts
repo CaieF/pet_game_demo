@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Node } from 'cc';
+import { _decorator, Component, director, Node, Prefab } from 'cc';
 import { util } from '../../../util/util';
 import { CharacterBagpack } from '../../Team/Canvas/CharacterBagpack';
 import { SCENE } from '../../../common/enums';
@@ -15,8 +15,7 @@ export class HomeUi extends Component {
     // 打开布阵
     async OpenTeam() {
         const close = await util.message.load();
-        this.node.parent.getChildByName("HolTeam").active = true;
-        await this.node.parent.getChildByName("HolTeam").getChildByName('CharacterBagpack').getComponent(CharacterBagpack).renderAllCharacter();
+        await util.message.team()
         close();
     }
 
@@ -24,16 +23,25 @@ export class HomeUi extends Component {
     async OpenStarMap() {
         const close = await util.message.load();
         
-        this.node.parent.getChildByName("HolStarMap").active = true;
+        await util.message.starMap()
         close();
     }
 
     // 打开科普界面
     async OpenBook() {
         const close = await util.message.load();
-        this.node.parent.getChildByName("HolBook").active = true;
-        await this.node.parent.getChildByName("HolBook").getChildByName("Ui").getComponent(BookUi).goFirst();
+        const node = await util.message.book()
+        await node.getChildByName("Ui").getComponent(BookUi).goFirst();
         close()
+    }
+
+    // 打开兑换码界面
+    async OpenExchange() {
+        const close = await util.message.load();
+        await util.message.exchange()
+        
+        close()
+    
     }
     
 }

@@ -29,7 +29,7 @@ const page1: IBookPage = {
 const page2: IBookPage = {
     title: '元气论',
     id: 2,
-    icon: book_icon_url + 'icon_soul/spriteFrame',
+    icon: 'image/resource_icon/resource_soul/spriteFrame',
     content: '中国古人关于构成生命与自然的基本物质观念, 元气论认为万物由“气”构成，涉及物质本质的探讨。\n天方大陆的万物由气构成，宠物吸收气可以变得更强，宠物分解也可以得到气',
     type: BOOKPAGETYPE.SUBSTANCE,
     isLeft: false,
@@ -40,7 +40,7 @@ const page2: IBookPage = {
 const page3: IBookPage = {
     title: '杠杆原理',
     id: 3,
-    icon: book_icon_url + 'icon_lever/spriteFrame',
+    icon: 'image/map_icon/map_icon_lever/spriteFrame',
     content: '墨子及其学派在《墨经》中详细描述了杠杆原理，书中提到，杠杆平衡时，力与力臂的乘积相等，即“标”与“权”的关系决定了平衡状态。\n这一描述与现代杠杆原理一致，即 F1 X L1 = F2 X L2',
     type: BOOKPAGETYPE.MECHANICS,
     isLeft: true,
@@ -73,7 +73,7 @@ const page5: IBookPage = {
 const page6: IBookPage = {
     title: '热胀冷缩',
     id: 6,
-    icon: 'image/game_resource/icon_fire/spriteFrame',
+    icon: 'image/ui/IconSword/spriteFrame',
     content: '汉代已观察到热胀冷缩现象，并应用于工程。《淮南万毕术》记述了热胀冷缩现象的一个典型实验',
     type: BOOKPAGETYPE.HOT,
     isLeft: false,

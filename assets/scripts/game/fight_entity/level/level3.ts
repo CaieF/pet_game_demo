@@ -1,5 +1,5 @@
 import { Vec3 } from "cc";
-import { ILevel } from ".";
+import { ILevel, ILevelDialog } from ".";
 import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import { LEVELTYPE } from "../../../common/enums";
 import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
@@ -30,6 +30,13 @@ const levelDetail: HolLevelDetailOption = {
   position
 }
 
+const dialogs: ILevelDialog[] = [
+  { character: {id: 'catGril', lv: 1, star: 1, equipment: [] }, dialog: '我们已经彻底进入敌人的部落了， 据罗盘显示，消失的五行之力就在这附近。' },
+  { character: {id: 'cat3', lv: 1, star: 1, equipment: [] }, dialog: '这片山林地势复杂，我们还需小心行事' },
+  { character: {id: 'cat1', lv: 1, star: 1, equipment: [] }, dialog: '那好像有更多的敌人！' },
+  { character: {id: 'Orc', lv: 1, star: 1, equipment: [] }, dialog: '没想到有人能突破断桥的守卫，兄弟们，给我上 ' }
+]
+
 const level: ILevel = {
   id,
   type: LEVELTYPE.FIGHT,
@@ -40,6 +47,7 @@ const level: ILevel = {
   icon,
   name,
   position,
+  dialogs,
   levelDetail,
 }
 

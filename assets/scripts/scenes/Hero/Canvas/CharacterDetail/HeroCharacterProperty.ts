@@ -140,6 +140,7 @@ export class HeroCharacterProperty extends Component {
         config.userData.gold -= util.resourceCost.levelUpNeedGold(this.$state.create)
         // 角色等级提升
         this.$state.create.lv++
+        stockConfig()
         this.LevelUpEffect()
         
     }
@@ -184,6 +185,7 @@ export class HeroCharacterProperty extends Component {
         await this.renderProperty(this.$state.create)
         find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染
         const levelStarEffectSkeleton = this.node.getChildByName("LevelStarEffect").getComponent(sp.Skeleton)
+        stockConfig()
         // //播放声音
         const audioSource = levelStarEffectSkeleton.node.getComponent(AudioSource)
         audioSource.volume = config.volume * config.volumeDetail.character

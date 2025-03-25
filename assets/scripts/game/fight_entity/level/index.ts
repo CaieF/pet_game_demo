@@ -7,6 +7,8 @@ import level4 from "./level4";
 import level5 from "./level5";
 import level6 from "./level6";
 import level7 from "./level7";
+import level8 from "./level8";
+import level9 from './level9'
 import { GAMETYPE, LEVELTYPE } from "../../../common/enums";
 import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
 
@@ -46,7 +48,9 @@ const levels: Record<string, ILevel> = {
   level4,
   level5,
   level6,
-  level7
+  level7,
+  level8,
+  level9,
 }
 
 export default levels

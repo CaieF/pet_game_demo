@@ -1,7 +1,6 @@
 import { _decorator, Button, CharacterController, Component, EventTouch, Node, Prefab } from 'cc';
 import { getConfig, stockConfig } from '../../../common/config/config';
 import { util } from '../../../util/util';
-import { common } from '../../../common/common/common';
 import { HolCharacterAvatar } from '../../../prefab/HolCharacterAvatar';
 import { CharacterBagpack } from './CharacterBagpack';
 const { ccclass, property } = _decorator;
@@ -14,9 +13,6 @@ export class CharacterTeamQueue extends Component {
 
     // 保存所有角色的头像节点
     private characterAvatarNode: Node[] = []
-    async start() {
-        this.renderAllCharacter()
-    }
 
     // 渲染所有角色
     public async renderAllCharacter() {
@@ -58,23 +54,17 @@ export class CharacterTeamQueue extends Component {
         // 获取行列
         const row = parseInt(arg.split("-")[0]) 
         const clo = parseInt(arg.split("-")[1])
-        const position = {row: row, col:clo}
-        //const character = common.leftCharacter.get(position)
         const character = config.userData.characterQueue[row-1][clo-1]
-        console.log(character);
         
         if (character) {
-            // common.leftCharacter.delete(position)
             config.userData.characters.push(character)
             config.userData.characterQueue[row-1][clo-1] = null
-            //this.renderAllCharacter()
         }
         // 如果已经选择了一个角色 则替换角色
         const currentCharacterAvatar = this.characterBagpackNode.getComponent(CharacterBagpack).currentCharacterAvatar
         if (currentCharacterAvatar && currentCharacterAvatar.character) {
             // 设置掉九宫格中
             config.userData.characterQueue[row-1][clo-1] = currentCharacterAvatar.character
-            // common.leftCharacter.set(position, currentCharacterAvatar.character)
             // 从背包删除
             config.userData.characters.splice(config.userData.characters.indexOf(currentCharacterAvatar.character) , 
             1)

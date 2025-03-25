@@ -1,7 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
-import { SCENE } from '../../common/enums';
+import { GAMETYPE, SCENE } from '../../common/enums';
 import { util } from '../../util/util';
-import { LeverGame } from './Lever/LeverGame';
 import { ILevel } from '../../game/fight_entity/level';
 import { common } from '../../common/common/common';
 import { getConfig, stockConfig } from '../../common/config/config';
@@ -10,10 +9,11 @@ const { ccclass, property } = _decorator;
 @ccclass('GameCanvas')
 export class GameCanvas extends Component {
     @property(Node) CommonUiNode: Node = null!
+    @property(Node) GameNode: Node = null!
 
     level: ILevel = null
 
-    protected start(): void {
+    protected async start(){
         this.level = common.level
         
         if (!this.level) {
@@ -21,12 +21,24 @@ export class GameCanvas extends Component {
             return
         }
 
-        this.node.getChildByName(this.level.gameType).active = true
+        switch (this.level.gameType) {
+            case GAMETYPE.GameLEVER:
+                await util.game.Lever();
+                break;
+            case GAMETYPE.GameRIVER:
+                await util.game.River();
+                break;
+            case GAMETYPE.GameFIRE:
+                await util.game.Fire();
+                break;
+            default:
+                break
+        }
     }
 
     // 回到主页
     async GoBack() {
-        this.node.getChildByName('Lever').getComponent(LeverGame).isGameStart = false
+        // this.node.getChildByName('Lever').getComponent(LeverGame).isGameStart = false
         await util.subdry.sceneDirector(SCENE.GAME, SCENE.HOME)
     }
 

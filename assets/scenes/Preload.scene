@@ -23,7 +23,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 29
+      "__id__": 30
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -54,7 +54,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 30
+      "__id__": 31
     },
     "_id": "a70ffdaa-7272-4363-b386-44937d67932b"
   },
@@ -77,9 +77,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 24
-      },
-      {
         "__id__": 25
       },
       {
@@ -90,6 +87,9 @@
       },
       {
         "__id__": 28
+      },
+      {
+        "__id__": 29
       }
     ],
     "_prefab": null,
@@ -181,7 +181,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 465.3040103492885,
+    "_orthoHeight": 665.9611992945327,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -279,6 +279,9 @@
       },
       {
         "__id__": 23
+      },
+      {
+        "__id__": 24
       }
     ],
     "removedComponents": []
@@ -452,6 +455,16 @@
     "value": false
   },
   {
+    "__type__": "CCPropertyOverrideInfo",
+    "targetInfo": {
+      "__id__": 22
+    },
+    "propertyPath": [
+      "_string"
+    ],
+    "value": "天 方 大 陆"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -559,28 +572,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 31
-    },
-    "shadows": {
       "__id__": 32
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 33
     },
-    "fog": {
+    "_skybox": {
       "__id__": 34
     },
-    "octree": {
+    "fog": {
       "__id__": 35
     },
-    "skin": {
+    "octree": {
       "__id__": 36
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 37
     },
-    "postSettings": {
+    "lightProbeInfo": {
       "__id__": 38
+    },
+    "postSettings": {
+      "__id__": 39
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

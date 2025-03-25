@@ -1,7 +1,6 @@
 import { _decorator, Button, Component, Label, Node, Sprite, SpriteFrame } from 'cc';
 import { ILevel } from '../game/fight_entity/level';
 import { util } from '../util/util';
-import { log } from '../util/out/log';
 const { ccclass, property } = _decorator;
 
 @ccclass('HolLevel')

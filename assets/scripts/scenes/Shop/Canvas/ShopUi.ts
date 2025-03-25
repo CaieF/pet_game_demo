@@ -1,7 +1,5 @@
-import { _decorator, Component, Label, Node, Sprite, UIOpacity } from 'cc';
-import { log } from '../../../util/out/log';
+import { _decorator, Component, Label, Node, Prefab } from 'cc';
 import { util } from '../../../util/util';
-import { SCENE } from '../../../common/enums';
 import { ShopTips } from '../../../common/Tips';
 const { ccclass, property } = _decorator;
 
@@ -9,7 +7,10 @@ const { ccclass, property } = _decorator;
 export class ShopUi extends Component {
     // 回到主页
     async GoBack() {
-        await util.subdry.sceneDirector(SCENE.SHOP, SCENE.HOME)
+        const close = await util.message.load();
+        const nodePool = util.resource.getNodePool(await util.bundle.load('prefab/HolShop', Prefab))
+        nodePool.put(this.node.parent)
+        close();
     }
 
     async clickWomen() {

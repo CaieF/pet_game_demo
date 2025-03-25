@@ -55,7 +55,8 @@ export class HolGood extends Component {
             default:
                 break;
         }
-        find("Canvas/HolUserResource").getComponent(HolUserResource).render() // 资源渲染 
+        find("Canvas/HolShop/HolUserResource").getComponent(HolUserResource).render() // 资源渲染 
+        find("Canvas/Ui/HolUserResource").getComponent(HolUserResource).render() // 资源渲染 
         // 购买成功
         stockConfig()
         return await util.message.prompt({message: '购买成功'})

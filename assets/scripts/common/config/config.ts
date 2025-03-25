@@ -2,6 +2,7 @@ import { CharacterStateCreate } from "../../game/fight/character/CharacterState"
 import { EquipmentStateCreate } from "../../game/fight/equipment/EquipmentState";
 import { ItemStateCreate } from "../../game/fight/item/ItemState";
 import { bookPages, IBookPage } from "../../game/fight_entity/bookPages";
+import { exchangeLabels, IExchangeLabel } from "../../game/fight_entity/exchangeLabel";
 import levels, { IUserLevelProcess } from "../../game/fight_entity/level";
 
 
@@ -33,6 +34,8 @@ let globalId: number = 1;
 
 class UserData extends Resource {
 
+    public isNew: boolean = true;  // 是否是新用户
+
     public lv: number = 1;
 
     public exp: number = 0;
@@ -52,6 +55,9 @@ class UserData extends Resource {
     // 书页进度
     public bookPageProgress: IBookPage[] = bookPages
 
+    // 兑换码兑换记录
+    public exchangeRecord: IExchangeLabel[] = exchangeLabels
+
     public characterQueue: CharacterStateCreate[][] = [
         [null, null, null],
         [null, null, null],
@@ -65,7 +71,7 @@ class UserData extends Resource {
         // 测试角色
         if (!or) { return }
         
-
+        this.isNew = or.isNew || true
         this.lv = or.lv || 1
         this.exp = or.exp || 1
         this.gold = or.gold || 1000
@@ -82,39 +88,6 @@ class UserData extends Resource {
             if (!c) return;
             this.characterQueue[i][j] = {...c , uuid: ++globalId}
         }))
-        // 没有任何角色
-        if (this.characters.length === 0 && this.isCharacterQueueEmpty()) {
-            this.addNewCharacter({
-                id: "cat3" ,
-                lv: 1 ,
-                star: 1 ,
-                equipment: []
-            })
-            this.addNewCharacter({
-                id: "cat1" ,
-                lv: 10 ,
-                star: 1 ,
-                equipment: []
-            })
-            this.addNewCharacter({
-                id: "cat2" ,
-                lv: 99 ,
-                star: 1 ,
-                equipment: []
-            })
-            this.addNewCharacter({
-                id: "cat4" ,
-                lv: 100 ,
-                star: 1 ,
-                equipment: []
-            })
-            this.addNewCharacter({
-                id: "catGril" ,
-                lv: 100 ,
-                star: 3 ,
-                equipment: []
-            })
-        }
     }
 
     // 添加新角色
@@ -224,5 +197,6 @@ export function getConfig(): Config {
     if (config) return config;
     const configJSON = localStorage.getItem("UserConfigData");
     config = configJSON ? new Config(JSON.parse(configJSON)) : new Config();
+    config.userData.isNew = configJSON ? false : true;
     return config;
 }

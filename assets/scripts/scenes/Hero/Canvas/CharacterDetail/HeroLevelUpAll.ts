@@ -1,5 +1,5 @@
 import { _decorator, AudioSource, Component, find, Label, Node, sp, Toggle } from 'cc';
-import { getConfig } from 'db://assets/scripts/common/config/config';
+import { getConfig, stockConfig } from 'db://assets/scripts/common/config/config';
 import { CharacterState } from 'db://assets/scripts/game/fight/character/CharacterState';
 import { util } from 'db://assets/scripts/util/util';
 import { HeroCharacterProperty } from './HeroCharacterProperty';
@@ -49,6 +49,7 @@ export class HeroLevelUpAll extends Component {
         this.state.create.lv += this.levelNum;
         this.HeroCharacterPropertyNode.getComponent(HeroCharacterProperty).LevelUpEffect(); // 升级特效以及渲染
         this.node.active = false;
+        stockConfig();
     }
 
     // 选择对应的等级

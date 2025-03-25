@@ -6,8 +6,7 @@ import { common } from '../../../common/common/common';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { RoundState } from '../../../game/fight/RoundState';
 import { getConfig, stockConfig } from '../../../common/config/config';
-import levels, { ILevel } from '../../../game/fight_entity/level';
-import { log } from '../../../util/out/log';
+import { ILevel } from '../../../game/fight_entity/level';
 import { FightTips } from '../../../common/Tips';
 const { ccclass, property } = _decorator;
 

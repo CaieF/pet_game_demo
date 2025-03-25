@@ -1,5 +1,4 @@
-import { _decorator, Component, dragonBones, Node } from 'cc';
-import { log } from '../../../util/out/log';
+import { _decorator, Component, dragonBones, find, Node } from 'cc';
 import { GameCanvas } from '../GameCanvas';
 const { ccclass, property } = _decorator;
 
@@ -68,7 +67,7 @@ export class FireGame extends Component {
 
         if (this.fireSafeTimer >= this.fireSafeTime) {
             this.isGameOver = true;
-            this.node.parent.getComponent(GameCanvas).fightSuccess()
+            find('Canvas').getComponent(GameCanvas).fightSuccess()
             return
         }
     }

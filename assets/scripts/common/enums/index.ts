@@ -3,7 +3,6 @@ export enum SCENE {
   HOME = 'Home',
   HERO = 'Hero',
   FIGHT = 'Fight',
-  SHOP = 'Shop',
   GAME = 'Game',
 }
 
@@ -29,9 +28,9 @@ export enum LEVELTYPE {
 }
 
 export enum GAMETYPE {
-  LEVER = 'Lever',  // 杠杆关卡
-  RIVER = 'River',  // 河流关卡
-  FIREGAME = 'FireGame',  // 火焰关卡
+  GameLEVER = 'GameLever',  // 杠杆关卡
+  GameRIVER = 'GameRiver',  // 河流关`卡
+  GameFIRE = 'GameFire',  // 火焰关卡
 }
 
 // 科普知识类型类型
@@ -40,4 +39,10 @@ export enum BOOKPAGETYPE {
   MECHANICS ='mechanics',  // 力学
   HOT = 'hot',  // 热学
   OPTICS = 'optics',  // 光学
+}
+
+// 奖励类型
+export enum REWARDType {
+  RESOURCE = 'resource',
+  PET = 'pet',
 }

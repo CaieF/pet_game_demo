@@ -36,7 +36,7 @@ const level: ILevel = {
     dialogs,
     unlockPageId: [3],
     levelDetail,
-    gameType: GAMETYPE.LEVER
+    gameType: GAMETYPE.GameLEVER
 }
 
 export default level

@@ -1,5 +1,5 @@
 import { Vec3 } from "cc";
-import { ILevel } from ".";
+import { ILevel, ILevelDialog } from ".";
 import { CharacterStateCreate } from "../../fight/character/CharacterState";
 import { LEVELTYPE } from "../../../common/enums";
 import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
@@ -7,7 +7,7 @@ import { HolLevelDetailOption } from "../../../prefab/HolLevelDetail";
 // 关卡敌人
 const enemyQueue: CharacterStateCreate[][] = [
   [{id: 'OrcArmored', lv: 15, star: 1, equipment: []}, {id: 'Orc', lv: 15, star: 1, equipment: [] }, {id: 'Orc', lv: 15, star: 1, equipment: [] }],
-  [{id: 'Orc', lv: 15, star: 1, equipment: [] }, null, null],
+  [{id: 'OrcArmored', lv: 15, star: 1, equipment: [] }, null, null],
   [null, null, {id: 'Orc', lv: 15, star: 1, equipment: [] }]
 ]
 
@@ -31,6 +31,11 @@ const levelDetail: HolLevelDetailOption = {
   position
 }
 
+const dialogs: ILevelDialog[] = [
+  { character: {id: 'cat1', lv: 1, star: 1, equipment: [] }, dialog: '怎么办，敌人的盾兵越来越多，我的剑快砍不动了' },
+  { character: {id: 'cat4', lv: 1, star: 1, equipment: [] }, dialog: '橘猫，保护我，看我集中火力，打破这坚固的阵线' },
+]
+
 const level: ILevel = {
   id,
   type: LEVELTYPE.FIGHT,
@@ -41,6 +46,7 @@ const level: ILevel = {
   icon,
   name,
   position,
+  dialogs,
   levelDetail
 }
 

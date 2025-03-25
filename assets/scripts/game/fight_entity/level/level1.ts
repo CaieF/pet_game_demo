@@ -25,8 +25,10 @@ const name: string = '断桥之战'
 const position: Vec3 = new Vec3(122, -227, 0)
 
 const dialogs: ILevelDialog[] = [
-   { character: {id: 'Orc', lv: 1, star: 1, equipment: [] }, dialog: '有入侵者 ！' },
-   { character: {id: 'catGril', lv: 1, star: 1, equipment: [] }, dialog: '哪来的哥布林，去si吧 ' }
+  { character: {id: 'cat1', lv: 1, star: 1, equipment: [] }, dialog: '看那弥漫的山气，仿佛天地未分，正如‘混沌初开’。' },
+  { character: {id: 'cat2', lv: 1, star: 1, equipment: [] }, dialog: '古人说‘阴阳未判，万物生于混沌’，我们必须小心行事。' },
+  { character: {id: 'cat4', lv: 1, star: 1, equipment: [] }, dialog: '小心！那边的断桥似乎有敌人！' },
+  { character: {id: 'Orc', lv: 1, star: 1, equipment: [] }, dialog: '有不明入侵者，做好战斗准备！ ' }
 ]
 
 const levelDetail: HolLevelDetailOption = {

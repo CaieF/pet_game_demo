@@ -32,7 +32,7 @@ export class LeverGame extends Component {
     D2MIN: number = 35
     D2MAX: number = 220
 
-    protected async start() {
+    async initGame() {
         await this.renderCat(addCharacterAnimation[0], this.Characters)
         for (let i = 0; i < standCharacterAnimation.length; i++) {
             await this.renderCat(standCharacterAnimation[i], this.standCharacter)
@@ -45,7 +45,7 @@ export class LeverGame extends Component {
         if (this.D2 >= this.D2MAX) {
             // 游戏成功
             this.isGameStart = false
-            this.node.parent.getComponent(GameCanvas).fightSuccess()
+            this.node.parent.parent.getComponent(GameCanvas).fightSuccess()
             return
         }
         this.D2 += (this.D2MAX - this.D2MIN) / this.moveTime * deltaTime
@@ -56,7 +56,7 @@ export class LeverGame extends Component {
         if (this.LeverAngle > 23 || this.LeverAngle < -5) {
             // 游戏失败
             this.isGameStart = false
-            this.node.parent.getComponent(GameCanvas).fightFailure()
+            this.node.parent.parent.getComponent(GameCanvas).fightFailure()
             return await util.message.prompt({message: "倾斜角度过大，游戏失败，请重新开始"})
         }
     }

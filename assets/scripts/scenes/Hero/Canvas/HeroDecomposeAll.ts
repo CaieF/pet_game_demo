@@ -2,7 +2,6 @@ import { _decorator, Component, Node, Event, Toggle, toDegree, Label, find } fro
 import { getConfig, stockConfig } from '../../../common/config/config';
 import { util } from '../../../util/util';
 import { HeroAllHeros } from './HeroAllHeros';
-import { log } from '../../../util/out/log';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
 import { CharacterEnum } from '../../../game/fight/character/CharacterEnum';
 import { formateNumber } from '../../../util/subdry/formateNumber';

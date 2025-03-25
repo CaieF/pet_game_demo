@@ -3,8 +3,6 @@ import { goods, IGOOD } from '../../../game/fight_entity/goods';
 import { util } from '../../../util/util';
 import { HolGood } from '../../../prefab/HolGood';
 import { ShopUi } from './ShopUi';
-import { ShopTips } from '../../../common/Tips';
-import { log } from '../../../util/out/log';
 const { ccclass, property } = _decorator;
 
 @ccclass('ShopAllGoods')
@@ -15,13 +13,10 @@ export class ShopAllGoods extends Component {
 
     selectedGood: IGOOD = null;
     selectedGoodNode: Node = null;
-    protected async start() {
-        this.content.removeAllChildren()
-        await this.renderAllGoods()
-    }
 
     // 渲染所有的商品
     public async renderAllGoods() {
+        this.content.removeAllChildren()
         const goodList = goods
         const close = await util.message.load()
         const nodePool = util.resource.getNodePool(

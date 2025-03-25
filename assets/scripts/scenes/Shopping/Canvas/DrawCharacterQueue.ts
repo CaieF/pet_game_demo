@@ -1,9 +1,8 @@
-import { _decorator, Component, Node, Prefab } from 'cc';
+import { _decorator, Component, Prefab } from 'cc';
 import { util } from '../../../util/util';
 import { CharacterStateCreate } from '../../../game/fight/character/CharacterState';
-import { HolCharacter } from '../../../prefab/HolCharacter';
 import { HolCharacterAvatar } from '../../../prefab/HolCharacterAvatar';
-import { log } from '../../../util/out/log';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('DrawCharacterQueue')

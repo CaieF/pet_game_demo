@@ -3,7 +3,6 @@ import { HolCharacter } from '../../../prefab/HolCharacter';
 import { util } from '../../../util/util';
 import { FightMap } from './FightMap';
 import { common, sceneCommon } from '../../../common/common/common';
-import { log } from '../../../util/out/log';
 import { SCENE } from '../../../common/enums';
 const { ccclass, property } = _decorator;
 

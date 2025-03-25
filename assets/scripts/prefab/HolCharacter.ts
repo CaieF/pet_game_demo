@@ -8,7 +8,6 @@ import { ActionState } from '../game/fight/ActionState';
 import { OnBeTarget } from '../game/fight/OnBeTarget';
 import { getCampHurtPercent } from '../game/fight/character/CharacterMetaState';
 import { HolNumber } from './HolNumber';
-import { log } from '../util/out/log';
 import { BuffState } from '../game/fight/buff/BuffState';
 import { HolEffect } from './HolEffect';
 import { EffectState } from '../game/fight/effect/EffectState';
